@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Warm editorial canvas */
+  --color-canvas: #faf9f6;
+  --color-card: #ffffff;
+  --color-ink: #16140f;
+  --color-muted: #6f6a60;
+  --color-faint: #a39d91;
+  --color-line: rgba(22, 20, 15, 0.1);
+  --color-night: #0f0e0c;
+  --color-night-ink: #f5f3ee;
+  --color-accent: #ffd21f;
+
+  /* Saans everywhere; --font-serif kept as an alias so font-serif
+     utilities keep working */
+  --font-sans: var(--font-saans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-saans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-saans-mono), ui-monospace, "SF Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-night-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Display headlines — Saans Medium, tight tracking */
+.display {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Small meta label — quiet editorial treatment: sentence case, Saans
+   Medium, near-normal tracking (the uppercase+mono+tracked combo read as
+   generic AI styling). */
+.meta {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* About is a short sheet over a fixed curtain footer. Overflow anchoring
+   on that extra margin fights trackpad / font / details height changes
+   and nudges scrollY. Smooth scroll on route-in also reveals the curtain
+   while the previous scrollY eases to 0. Keep the document still. */
+html:has(.about-page) {
+  overflow-anchor: none;
+  overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+html:has(.about-page) body {
+  overflow-x: hidden;
+}
+
+/* Native <details> only. Do not interpolate ::details-content: Chromium
+   remeasures height: auto every frame and thrashes layout. */
+.about-panel {
+  overflow-anchor: none;
+}
+
+.about-panel::details-content {
+  transition: none;
+}
+
+/* Traveling border light: a gradient comet orbits the element's edge
+   while its `group` parent is hovered (see components/GlowBorder.tsx). */
+@property --beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.glow-border {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg 265deg,
+    rgba(255, 210, 31, 0.9) 300deg,
+    #f0964e 322deg,
+    #6fa8e8 342deg,
+    #9b83e8 354deg,
+    transparent 360deg
+  );
+  /* Keep only the 1.5px rim of the gradient visible */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  /* Covers the snap-back when un-hovering mid-orbit (animation removed). */
+  transition: opacity 0.25s ease;
+}
+
+/* Capped at 1s per hover: a single non-looping orbit that fades itself in
+   and back out. `both` fill keeps it at opacity 0 once done; leaving and
+   re-entering removes/re-applies the animation, restarting it. */
+.group:hover .glow-border {
+  animation: beam-orbit 1s linear both;
+}
+
+@keyframes beam-orbit {
+  0% {
+    --beam-angle: 0deg;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 1;
+  }
+  100% {
+    --beam-angle: 360deg;
+    opacity: 0;
+  }
+}
+
+/* Footer logo flow: conic gradient (beam palette) clipped to the mark's
+   shape via an SVG mask (set inline from components/Logo.tsx). The footer's
+   cursor drives --flow-angle / --flow-glow via GSAP (see Footer.tsx). */
+.logo-flow {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from var(--flow-angle, 0deg),
+    #ffd21f,
+    #f0964e,
+    #9b83e8,
+    #6fa8e8,
+    #b8d94e,
+    #ffd21f
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  opacity: var(--flow-glow, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow-border {
+    animation: none;
+    opacity: 0 !important;
+  }
+  .logo-flow {
+    opacity: 0 !important;
+  }
+}

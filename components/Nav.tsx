@@ -1,0 +1,198 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Logo } from "./Logo";
+import { GlowBorder } from "./GlowBorder";
+
+// Must match PIN_TOP in CaseStack.tsx: the first card is "fully in view"
+// when its top sits 84px below the viewport top (its ScrollTrigger start).
+const PIN_TOP = 84;
+
+function scrollToFirstCase() {
+  const card = document.querySelector<HTMLElement>(".case-card");
+  if (!card) return;
+  // pinSpacing: false keeps the first card's natural document position
+  // intact before it pins, so its rect + scrollY is a reliable target.
+  const top = card.getBoundingClientRect().top + window.scrollY - PIN_TOP;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+// Header hides once the user has scrolled down past HIDE_AFTER, reappears on
+// a clear upward scroll, and is always visible above ALWAYS_SHOW_BELOW.
+// DIRECTION_DELTA is hysteresis: 1px jitter (font load, accordion, scroll
+// anchoring, overlay) must not flip the header.
+const HIDE_AFTER = 120;
+const ALWAYS_SHOW_BELOW = 80;
+const DIRECTION_DELTA = 16;
+const MIN_SCROLLABLE = 240;
+
+export function Nav() {
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+  const onAbout = pathname === "/about";
+  const [hidden, setHidden] = useState(false);
+
+  // About is a short sheet over a 560px curtain footer. Do not attach a
+  // scroll listener there: leftover scrollY plus hide classes will flash
+  // the header. Snap to the top so the curtain is not in view on arrival.
+  useEffect(() => {
+    if (onAbout) {
+      const root = document.documentElement;
+      root.dataset.scrollBehavior = "auto";
+      window.scrollTo(0, 0);
+      return () => {
+        root.dataset.scrollBehavior = "smooth";
+      };
+    }
+
+    setHidden(false);
+
+    let lastY = window.scrollY;
+    let accumulated = 0;
+    let ticking = false;
+    let frame = 0;
+
+    const update = () => {
+      ticking = false;
+      const y = Math.max(0, window.scrollY);
+      const scrollable =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const delta = y - lastY;
+      lastY = y;
+
+      // Short pages sit near the hide threshold. Hiding there oscillates.
+      if (scrollable < MIN_SCROLLABLE || y < ALWAYS_SHOW_BELOW) {
+        accumulated = 0;
+        setHidden((was) => (was ? false : was));
+        return;
+      }
+
+      if ((delta > 0 && accumulated < 0) || (delta < 0 && accumulated > 0)) {
+        accumulated = 0;
+      }
+      accumulated += delta;
+
+      if (accumulated > DIRECTION_DELTA && y > HIDE_AFTER) {
+        setHidden((was) => (was ? was : true));
+        accumulated = 0;
+      } else if (accumulated < -DIRECTION_DELTA) {
+        setHidden((was) => (was ? false : was));
+        accumulated = 0;
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        frame = requestAnimationFrame(update);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+  }, [onAbout]);
+
+  // Shared by both fixed header elements so they move as one unit. About
+  // stays static: no hide classes, no transform transition. With reduced
+  // motion the header simply stays put on other routes too.
+  const isHidden = hidden && !onAbout;
+  const hideClass = isHidden
+    ? "pointer-events-none -translate-y-[150%] motion-reduce:pointer-events-auto motion-reduce:translate-y-0"
+    : "translate-y-0";
+  const headerMotion = onAbout
+    ? ""
+    : `transition-transform duration-300 ease-out motion-reduce:transition-none ${hideClass}`;
+
+  // Cross-route case: arriving at /#work from another page, scroll to the
+  // first case card once the homepage has mounted.
+  useEffect(() => {
+    if (onHome && window.location.hash === "#work") {
+      const raf = requestAnimationFrame(scrollToFirstCase);
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [onHome]);
+
+  const handleWorkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onHome) {
+      e.preventDefault();
+      scrollToFirstCase();
+    }
+  };
+
+  // Already on the homepage: a Link to "/" wouldn't move the page, so
+  // scroll back to the top instead.
+  const handleHomeClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onHome) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  return (
+    <>
+      {/* Identity lockup, pinned top-left. h-12 matches the pill's height
+          (h-9 links + p-1.5) so both sit on the same visual centerline.
+          The quiet glass scrim keeps the text legible over card content. */}
+      <Link
+        href="/"
+        aria-label="Home"
+        onClick={handleHomeClick}
+        className={`fixed left-6 top-5 z-50 flex h-12 items-center gap-3 rounded-full p-1 sm:pr-4 ${
+          onAbout ? "bg-night" : "bg-night/60 backdrop-blur-md"
+        } ${headerMotion}`}
+      >
+        <span className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-night-ink text-night">
+          <Logo className="h-[18px] w-auto" />
+          <GlowBorder />
+        </span>
+        <span className="hidden leading-tight sm:block">
+          <span className="block text-sm font-bold text-night-ink">
+            Nupur Aggarwal
+          </span>
+          <span className="block text-xs text-night-ink/60">
+            Product Designer
+          </span>
+        </span>
+      </Link>
+
+      {/* Pinned top-right, mirroring the lockup's left-6. pointer-events-none
+          on the wrapper so the hidden nav never swallows clicks; the button
+          row re-enables pointer events while visible. */}
+      <div
+        className={`pointer-events-none fixed right-6 top-5 z-50 flex justify-end ${headerMotion}`}
+      >
+        <nav
+          className={`flex items-center gap-2 ${isHidden ? "" : "pointer-events-auto"}`}
+        >
+          <Link
+            href="/#work"
+            onClick={handleWorkClick}
+            className={`group relative rounded-full border border-line px-5 py-2.5 text-sm font-medium text-ink shadow-[0_2px_16px_rgba(22,20,15,0.08)] transition-colors hover:bg-canvas ${
+              onAbout ? "bg-card" : "bg-card/90 backdrop-blur-md"
+            }`}
+          >
+            Projects
+            <GlowBorder />
+          </Link>
+          <Link
+            href="/about"
+            aria-current={pathname === "/about" ? "page" : undefined}
+            className={`group relative rounded-full border px-5 py-2.5 text-sm font-medium shadow-[0_2px_16px_rgba(22,20,15,0.08)] transition-colors ${
+              pathname === "/about"
+                ? "border-ink bg-ink text-canvas"
+                : "border-line bg-card/90 text-ink backdrop-blur-md hover:bg-canvas"
+            }`}
+          >
+            About
+            <GlowBorder />
+          </Link>
+        </nav>
+      </div>
+    </>
+  );
+}
