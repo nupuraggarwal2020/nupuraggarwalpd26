@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { ProofPills } from "@/components/case/ProofPills";
 import { getCase, mainCases, moreProjects } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -47,6 +48,9 @@ export default async function CaseStudyPage({
             {cs.subheading}
           </p>
           <p className="mt-4 text-sm text-faint">{cs.role}</p>
+          {"proof" in cs && Array.isArray(cs.proof) ? (
+            <ProofPills items={cs.proof} className="mt-8" />
+          ) : null}
           <p className="mt-12 leading-relaxed text-night-ink/70">
             The full case study is being written. If you&apos;d like the
             walkthrough sooner, the email in the footer works — say so.

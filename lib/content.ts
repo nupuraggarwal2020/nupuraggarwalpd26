@@ -81,6 +81,7 @@ export type MoreProject = {
   subheading: string;
   role: string;
   tone: string;
+  comingSoon?: boolean;
 };
 
 export const moreProjects: MoreProject[] = [
@@ -91,6 +92,7 @@ export const moreProjects: MoreProject[] = [
       "Research-built behavioural archetypes now used across design, research, product and marketing.",
     role: "Senior Product Designer · Canva · 2024",
     tone: "#b8d94e",
+    comingSoon: true,
   },
   {
     slug: "runners",
@@ -99,6 +101,7 @@ export const moreProjects: MoreProject[] = [
       "Crawl, walk, run: a phased design of self-hosted CI/CD from Linux to Windows and macOS.",
     role: "Product Designer · Atlassian · 2020",
     tone: "#6fa8e8",
+    comingSoon: true,
   },
   {
     slug: "azure-test-plans",
@@ -107,6 +110,7 @@ export const moreProjects: MoreProject[] = [
       "A complete redesign of Microsoft's test management suite that lifted daily active users by 25%.",
     role: "Product Designer · Microsoft · 2018",
     tone: "#9b83e8",
+    comingSoon: true,
   },
 ];
 

@@ -7,6 +7,7 @@ import { CaseToc, type TocItem } from "@/components/case/CaseToc";
 import { Collapse } from "@/components/case/Collapse";
 import { CaseCarousel } from "@/components/case/CaseCarousel";
 import { Media } from "@/components/case/Media";
+import { ProofPills } from "@/components/case/ProofPills";
 import { mainCases } from "@/lib/content";
 
 const cs = mainCases.find((c) => c.slug === "canva-ai")!;
@@ -168,6 +169,7 @@ export default function CanvaAiCaseStudy() {
           <p className="mt-6 max-w-2xl leading-relaxed text-night-ink/70 md:text-lg">
             {cs.subheading}
           </p>
+          <ProofPills items={cs.proof} className="mt-8" />
         </header>
 
         <div className="mx-auto max-w-5xl px-6">

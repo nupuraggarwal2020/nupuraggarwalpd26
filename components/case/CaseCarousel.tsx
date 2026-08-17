@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useId, useState } from "react";
+import { PersonaOutline } from "@/components/case/PersonaOutline";
 
 export type CaseCarouselSlide = {
   src: string;
@@ -13,6 +14,8 @@ type CaseCarouselProps = {
   caption?: string;
   tint: string;
   tone: string;
+  /** Thin cyan-to-navy stroke. Default for slides. Set false to opt out. */
+  outline?: "persona" | false;
 };
 
 function Arrow({ dir }: { dir: "prev" | "next" }) {
@@ -39,15 +42,16 @@ function Arrow({ dir }: { dir: "prev" | "next" }) {
 
 /**
  * Slow, clickable case-study carousel. One image at a time, with
- * previous / next and dots. No autoplay. Each slide uses its intrinsic
- * size so nothing is cropped.
+ * previous / next and dots. No autoplay. The well keeps a 16/9 height
+ * so slides do not jump.
  */
 export function CaseCarousel({
   slides,
   fig,
   caption,
-  tint,
+  tint: _tint,
   tone,
+  outline = "persona",
 }: CaseCarouselProps) {
   const labelId = useId();
   const [index, setIndex] = useState(0);
@@ -71,12 +75,29 @@ export function CaseCarousel({
         aria-roledescription="carousel"
         aria-labelledby={caption ? labelId : undefined}
         aria-label={caption ? undefined : "Outcome screens"}
-        className="col-span-full w-full overflow-hidden rounded-3xl p-3 md:p-4"
-        style={{ background: tint }}
+        className="col-span-full w-full"
       >
-        {/* Native img: width 100%, height auto, original aspect. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={current.src} alt={current.alt} className="h-auto w-full" />
+        {outline === false ? (
+          <div className="relative aspect-[16/9] w-full overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={current.src}
+              alt={current.alt}
+              className="absolute inset-0 h-full w-full object-cover object-top"
+            />
+          </div>
+        ) : (
+          <PersonaOutline>
+            <div className="relative aspect-[16/9] w-full overflow-hidden">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={current.src}
+                alt={current.alt}
+                className="absolute inset-0 h-full w-full object-cover object-top"
+              />
+            </div>
+          </PersonaOutline>
+        )}
         <p className="sr-only" aria-live="polite">
           Image {index + 1} of {count}
         </p>

@@ -1,4 +1,7 @@
+import { PersonaOutline } from "@/components/case/PersonaOutline";
+
 type Variant = "chat" | "browser" | "cards" | "plain";
+type Outline = "persona" | false;
 
 type MediaProps = {
   /** Path under /public, e.g. "/work/canva-ai/fig-1.mp4". Omit for a placeholder. */
@@ -14,6 +17,19 @@ type MediaProps = {
   tint: string;
   tone: string;
   variant?: Variant;
+  /**
+   * When false with outline={false}, show a rare raw file with no stroke.
+   * Real src still uses the persona outline by default.
+   */
+  framed?: boolean;
+  /**
+   * Thin cyan-to-navy stroke. Default for real src. Set false to opt out.
+   */
+  outline?: Outline;
+  /** Small diagram: constrained width with a tinted pad. */
+  compact?: boolean;
+  /** Max width in px when compact. Default 280. */
+  compactWidth?: number;
 };
 
 const VIDEO_RE = /\.(mp4|webm|mov)$/i;
@@ -94,8 +110,8 @@ function CardsSketch({ tone }: { tone: string }) {
 
 /**
  * Case study figure. Real media keeps its intrinsic size (width 100%,
- * height auto). The tinted rounded frame is padding, not a crop window.
- * Placeholders still use a fixed aspect box.
+ * height auto). Real src uses the persona outline by default. Placeholders
+ * keep the tinted box.
  */
 export function Media({
   src,
@@ -107,34 +123,59 @@ export function Media({
   tint,
   tone,
   variant = "plain",
+  framed = true,
+  outline = "persona",
+  compact = false,
+  compactWidth = 280,
 }: MediaProps) {
+  const file = src ? (
+    VIDEO_RE.test(src) ? (
+      <video
+        src={src}
+        className="block h-auto w-full"
+        autoPlay
+        loop
+        muted
+        playsInline
+      />
+    ) : (
+      // Native img so the file keeps its original aspect. next/image
+      // fill + a fixed aspect box crops or letterboxes the shot.
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={src} alt={alt} className="block h-auto w-full" />
+    )
+  ) : null;
+
+  const showOutline =
+    Boolean(src) && outline !== false && framed !== false && !compact;
+
+  const frame = src ? (
+    compact ? (
+      <div
+        className="overflow-hidden rounded-2xl p-5"
+        style={{ background: tint }}
+      >
+        {file}
+      </div>
+    ) : showOutline ? (
+      <PersonaOutline>{file}</PersonaOutline>
+    ) : (
+      file
+    )
+  ) : null;
+
   return (
     <figure>
       {src ? (
-        <div
-          className="w-full overflow-hidden rounded-3xl p-3 md:p-4"
-          style={{ background: tint }}
-        >
-          {VIDEO_RE.test(src) ? (
-            <video
-              src={src}
-              className="h-auto w-full"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          ) : (
-            // Native img so the file keeps its original aspect. next/image
-            // fill + a fixed aspect box crops or letterboxes the shot.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={src} alt={alt} className="h-auto w-full" />
-          )}
-        </div>
+        compact ? (
+          <div style={{ maxWidth: compactWidth }}>{frame}</div>
+        ) : (
+          frame
+        )
       ) : (
         <div
-          className={`relative w-full overflow-hidden rounded-3xl ${aspect}`}
-          style={{ background: tint }}
+          className={`relative w-full overflow-hidden ${aspect}`}
+          style={{ background: tint, borderRadius: 16 }}
         >
           <div className="absolute inset-0 flex items-center justify-center p-6 md:p-10">
             {variant === "chat" && <ChatSketch tone={tone} />}

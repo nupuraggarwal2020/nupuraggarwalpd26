@@ -13,6 +13,11 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const PIN_TOP = 84;
 const STACK_GAP = 16;
 const MARQUEE_DURATION = 180;
+const PARALLAX_X = 32;
+/* The media well owns height (flex-1 + min-h-0). Slide width is 8/5 of
+   that well height via 100cqh, so image files cannot change the box. */
+const SLIDE_BOX =
+  "relative h-full w-[calc(100cqh*8/5)] shrink-0 self-stretch overflow-hidden rounded-none";
 
 /* Simple placeholder UI panels — replaced with real project visuals later */
 
@@ -33,7 +38,7 @@ function SkeletonLines({ tone, rows }: { tone: string; rows: number }) {
 
 function BrowserPanel({ tone }: { tone: string }) {
   return (
-    <div className="h-full w-full rounded-2xl bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+    <div className="h-full w-full rounded-none bg-white p-5">
       <div className="mb-4 flex gap-1.5">
         {[0, 1, 2].map((i) => (
           <span key={i} className="h-2.5 w-2.5 rounded-full bg-ink/10" />
@@ -47,7 +52,7 @@ function BrowserPanel({ tone }: { tone: string }) {
 
 function ChatPanel({ tone }: { tone: string }) {
   return (
-    <div className="flex h-full w-full flex-col justify-end gap-3 rounded-2xl bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+    <div className="flex h-full w-full flex-col justify-end gap-3 rounded-none bg-white p-5">
       <div className="ml-auto h-9 w-3/5 rounded-2xl rounded-br-md bg-ink/8" />
       <div className="h-9 w-4/5 rounded-2xl rounded-bl-md" style={{ background: tone, opacity: 0.4 }} />
       <div className="h-9 w-1/2 rounded-2xl rounded-bl-md" style={{ background: tone, opacity: 0.25 }} />
@@ -60,7 +65,7 @@ function ChatPanel({ tone }: { tone: string }) {
 
 function ChipPanel({ tone }: { tone: string }) {
   return (
-    <div className="flex h-full w-full flex-col gap-3 rounded-2xl bg-white p-4 shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
+    <div className="flex h-full w-full flex-col gap-3 rounded-none bg-white p-4">
       <div className="h-6 w-16 rounded-full" style={{ background: tone, opacity: 0.5 }} />
       <SkeletonLines tone={tone} rows={3} />
     </div>
@@ -69,13 +74,13 @@ function ChipPanel({ tone }: { tone: string }) {
 
 function ImagePanel({ src, alt }: { src: string; alt: string }) {
   return (
-    <div className="flex h-full shrink-0 items-center overflow-hidden rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.25)]">
-      {/* Height follows the marquee row. Width follows the file aspect. */}
+    <div className={SLIDE_BOX}>
+      {/* Fill the well box. Height never comes from the file. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
         alt={alt}
-        className="h-full w-auto max-w-none object-contain"
+        className="absolute inset-0 block h-full w-full max-h-none max-w-none rounded-none object-cover object-left-top"
       />
     </div>
   );
@@ -84,7 +89,6 @@ function ImagePanel({ src, alt }: { src: string; alt: string }) {
 type PanelItem = {
   kind: "panel";
   Panel: typeof BrowserPanel;
-  aspect: string;
 };
 
 type ImageItem = {
@@ -97,48 +101,83 @@ type CarouselItem = PanelItem | ImageItem;
 
 /* One seamless-loop sequence of carousel items; rendered twice for the marquee. */
 const placeholderItems: CarouselItem[] = [
-  { kind: "panel", Panel: BrowserPanel, aspect: "aspect-[16/10]" },
-  { kind: "panel", Panel: ChatPanel, aspect: "aspect-[3/4]" },
-  { kind: "panel", Panel: ChipPanel, aspect: "aspect-[4/5]" },
+  { kind: "panel", Panel: BrowserPanel },
+  { kind: "panel", Panel: ChatPanel },
+  { kind: "panel", Panel: ChipPanel },
 ];
 
 const canvaAiItems: CarouselItem[] = [
   {
     kind: "image",
-    src: "/work/canva-ai/hero.png",
+    src: "/work/canva-ai/hero-home.png",
     alt: "ChatGPT creating on-brand Chopify Burger social posts via Canva",
   },
   {
     kind: "image",
-    src: "/work/canva-ai/link-component.png",
-    alt: "Canva using brand guidelines from a chat prompt",
+    src: "/work/canva-ai/hero-home-2.png",
+    alt: "Canva in chat resizing a poster and drafting a Q1 pitch deck",
+  },
+];
+
+const securityInJiraItems: CarouselItem[] = [
+  {
+    kind: "image",
+    src: "/work/security-in-jira/hero.png",
+    alt: "Jira Security setup state. Connect your tools to manage security work in one place.",
+  },
+  {
+    kind: "image",
+    src: "/work/security-in-jira/hero-2.png",
+    alt: "Jira Security for the Beyond Gravity project, with a vulnerabilities table.",
+  },
+];
+
+const smartDevopsItems: CarouselItem[] = [
+  {
+    kind: "image",
+    src: "/work/smart-devops/hero-home.png",
+    alt: "Jira board with a pull request hover card on an issue",
+  },
+  {
+    kind: "image",
+    src: "/work/smart-devops/hero-home-2.png",
+    alt: "Jira board grouped by pull request status into swimlanes",
   },
 ];
 
 function itemsForCase(slug: string): CarouselItem[] {
-  return slug === "canva-ai" ? canvaAiItems : placeholderItems;
+  if (slug === "canva-ai") return canvaAiItems;
+  if (slug === "security-in-jira") return securityInJiraItems;
+  if (slug === "smart-devops") return smartDevopsItems;
+  return placeholderItems;
 }
 
 function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
   return (
     <article
-      className="case-card relative mx-auto flex h-[82svh] w-full max-w-[1600px] flex-col gap-6 overflow-hidden rounded-3xl border border-white/10 bg-[#1c1b18]/90 p-6 text-night-ink backdrop-blur-md shadow-[0_-12px_60px_rgba(0,0,0,0.5)] md:p-9"
+      className="case-card relative mx-auto flex h-[82svh] w-full max-w-[1600px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#1c1b18]/90 text-night-ink backdrop-blur-md shadow-[0_-12px_60px_rgba(0,0,0,0.5)]"
       style={{ zIndex: index + 1 }}
     >
-      <div>
+      <div className="px-6 pb-5 pt-6 md:px-9 md:pb-6 md:pt-9">
         <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <span className="meta text-night-ink/45">Project {index + 1}</span>
             <span className="text-night-ink/45">·</span>
             <span className="text-sm text-night-ink/60">{cs.role}</span>
           </div>
-          <Link
-            href={`/work/${cs.slug}`}
-            className="group relative shrink-0 rounded-full bg-night-ink px-5 py-2.5 text-sm font-medium text-night transition-colors hover:bg-white"
-          >
-            View case study →
-            <GlowBorder />
-          </Link>
+          {cs.slug === "pipelines-vision" ? (
+            <span className="relative shrink-0 cursor-default rounded-full bg-[#f3d2b0] px-5 py-2.5 text-sm font-medium text-ink">
+              Coming soon
+            </span>
+          ) : (
+            <Link
+              href={`/work/${cs.slug}`}
+              className="group relative shrink-0 rounded-full bg-night-ink px-5 py-2.5 text-sm font-medium text-night transition-colors hover:bg-white"
+            >
+              View case study →
+              <GlowBorder />
+            </Link>
+          )}
         </div>
         <h2 className="display mt-3 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] lg:whitespace-nowrap">
           {cs.heading}
@@ -146,38 +185,29 @@ function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
         <p className="mt-3 max-w-2xl text-base font-medium leading-relaxed text-night-ink/85 md:text-lg">
           {cs.subheading}
         </p>
-        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="meta mr-2 text-night-ink/45">Outcomes</span>
-          {cs.proof.map((item) => (
-            <span
-              key={item}
-              className="rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-medium text-night-ink/90 md:text-base"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
       </div>
 
-      <div className="relative min-h-[280px] flex-1 overflow-hidden rounded-2xl">
-        <div className="marquee-track flex h-full w-max">
-          {[0, 1].map((copy) => (
-            <div
-              key={copy}
-              aria-hidden={copy === 1}
-              className="flex h-full items-stretch gap-5 pr-5"
-            >
-              {itemsForCase(cs.slug).map((item, i) =>
-                item.kind === "image" ? (
-                  <ImagePanel key={i} src={item.src} alt={item.alt} />
-                ) : (
-                  <div key={i} className={`h-full shrink-0 ${item.aspect}`}>
-                    <item.Panel tone={cs.tone} />
-                  </div>
-                ),
-              )}
-            </div>
-          ))}
+      <div className="relative min-h-0 flex-1 overflow-hidden [container-type:size]">
+        <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
+          <div className="marquee-track flex h-full w-max items-stretch">
+            {[0, 1].map((copy) => (
+              <div
+                key={copy}
+                aria-hidden={copy === 1}
+                className="flex h-full items-stretch gap-5 pr-5"
+              >
+                {itemsForCase(cs.slug).map((item, i) =>
+                  item.kind === "image" ? (
+                    <ImagePanel key={i} src={item.src} alt={item.alt} />
+                  ) : (
+                    <div key={i} className={SLIDE_BOX}>
+                      <item.Panel tone={cs.tone} />
+                    </div>
+                  ),
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </article>
@@ -210,9 +240,42 @@ export function CaseStack() {
         gsap.fromTo(
           track,
           { xPercent: 0 },
-          { xPercent: -50, duration: MARQUEE_DURATION, ease: "none", repeat: -1 },
+          {
+            xPercent: -50,
+            duration: MARQUEE_DURATION,
+            ease: "none",
+            repeat: -1,
+            force3D: true,
+          },
         );
       });
+
+      // Additive scroll offset on a wrapper so the RTL loop stays intact.
+      // Scroll down eases the strip further left (travel direction).
+      const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      if (!reduceMotion) {
+        cards.forEach((card) => {
+          const layer = card.querySelector<HTMLElement>(".marquee-parallax");
+          if (!layer) return;
+          gsap.fromTo(
+            layer,
+            { x: PARALLAX_X },
+            {
+              x: -PARALLAX_X,
+              ease: "none",
+              force3D: true,
+              scrollTrigger: {
+                trigger: card,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.8,
+              },
+            },
+          );
+        });
+      }
     },
     { scope: container },
   );

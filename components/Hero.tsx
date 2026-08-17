@@ -16,11 +16,10 @@ export function Hero() {
         <strong className="font-semibold text-night-ink">OpenAI</strong> and{" "}
         <strong className="font-semibold text-night-ink">Anthropic</strong>.
       </p>
-      <div className="absolute inset-x-0 bottom-6 z-10 flex items-center justify-center gap-2 text-night-ink/60">
-        <span className="meta">Projects</span>
-        <span aria-hidden className="text-sm leading-none">
-          ↓
-        </span>
+      <div className="absolute inset-x-0 bottom-6 z-10">
+        <div className="mx-auto max-w-[1600px] px-4 md:px-8">
+          <span className="meta text-night-ink/60">Projects</span>
+        </div>
       </div>
     </section>
   );
