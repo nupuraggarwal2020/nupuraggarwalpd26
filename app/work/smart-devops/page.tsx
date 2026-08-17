@@ -935,14 +935,6 @@ export default function SmartDevopsCaseStudy() {
                 tint={cs.tint}
                 tone={cs.tone}
               />
-              <Media
-                fig={12}
-                caption="Accessibility audit of the Code page."
-                src="/work/smart-devops/a11y-audit.png"
-                alt="Accessibility audit with focus areas and landmarks"
-                tint={cs.tint}
-                tone={cs.tone}
-              />
             </Section>
 
             <Section id="outcome" title="Outcome">
