@@ -79,58 +79,6 @@ function Labeled({
   );
 }
 
-function FindingRow({
-  kind,
-  children,
-}: {
-  kind: "positive" | "negative";
-  children: React.ReactNode;
-}) {
-  const positive = kind === "positive";
-  const color = positive ? "#8fae8c" : "#c48b84";
-  const fill = positive
-    ? "rgba(143, 174, 140, 0.14)"
-    : "rgba(196, 139, 132, 0.14)";
-
-  return (
-    <li className="flex items-start gap-3">
-      <span
-        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full"
-        style={{ color, background: fill }}
-        aria-hidden
-      >
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-          {positive ? (
-            <path
-              d="M2.5 6.2L4.8 8.5L9.5 3.5"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          ) : (
-            <>
-              <path
-                d="M3.5 3.5L8.5 8.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-              <path
-                d="M8.5 3.5L3.5 8.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-              />
-            </>
-          )}
-        </svg>
-      </span>
-      <p className="leading-relaxed text-night-ink/80">{children}</p>
-    </li>
-  );
-}
-
 function OutcomeCard({
   eyebrow,
   title,
@@ -567,19 +515,6 @@ export default function SecurityInJiraCaseStudy() {
                   </CollapseStack>
                 </Collapse>
               </div>
-              <blockquote
-                className="max-w-[640px] border-l-2 pl-6"
-                style={{ borderColor: cs.tone }}
-              >
-                <p className="display text-xl leading-snug text-night-ink md:text-2xl">
-                  There is a real use case that you&apos;re bringing all this
-                  information within Jira, letting people build or create
-                  tickets right there. It all gets attached.
-                </p>
-                <footer className="meta mt-3 text-faint">
-                  P8 · PM · SMB SaaS
-                </footer>
-              </blockquote>
               <Media
                 fig={2}
                 caption="Prototype of the Security tab."
@@ -589,47 +524,24 @@ export default function SecurityInJiraCaseStudy() {
                 tone={cs.tone}
                 outline="persona"
               />
-              <div>
-                <h3 className="display max-w-[640px] text-2xl md:text-3xl">
-                  Outcomes of prototype testing
-                </h3>
-                <ul className="mt-6 flex max-w-[640px] flex-col gap-4">
-                  <FindingRow kind="positive">
-                    Overcomes{" "}
-                    <strong className="font-semibold text-night-ink">
-                      Manual workflows
-                    </strong>{" "}
-                    (like copying and pasting security information into Jira).
-                  </FindingRow>
-                  <FindingRow kind="positive">
-                    Greater Visibility and easier remediation through tracking
-                    them.
-                  </FindingRow>
-                  <FindingRow kind="negative">
-                    Want Increased efficiency due to less context switching,
-                    increased automation and more seamless workflows (for
-                    individuals and teams).
-                  </FindingRow>
-                </ul>
-                <blockquote
-                  className="mt-8 max-w-[640px] border-l-2 pl-6"
-                  style={{ borderColor: cs.tone }}
-                >
-                  <p className="display text-xl leading-snug text-night-ink md:text-2xl">
-                    There is a real use case that you&apos;re bringing all
-                    this information within Jira, letting people build or
-                    create tickets right there. It all gets attached. So
-                    again, it depends how many of these security
-                    vulnerabilities you have to solve, but like the more you
-                    have to solve or the more your job function is attached
-                    to it, I think it adds a lot of value there. It adds a
-                    lot of efficiency, let&apos;s put it that way.
-                  </p>
-                  <footer className="meta mt-3 text-faint">
-                    (P8, PM, SMB SaaS)
-                  </footer>
-                </blockquote>
-              </div>
+              <blockquote
+                className="max-w-[640px] border-l-2 pl-6"
+                style={{ borderColor: cs.tone }}
+              >
+                <p className="display text-xl leading-snug text-night-ink md:text-2xl">
+                  There is a real use case that you&apos;re bringing all this
+                  information within Jira, letting people build or create
+                  tickets right there. It all gets attached. So again, it
+                  depends how many of these security vulnerabilities you have
+                  to solve, but like the more you have to solve or the more
+                  your job function is attached to it, I think it adds a lot
+                  of value there. It adds a lot of efficiency, let&apos;s put
+                  it that way.
+                </p>
+                <footer className="meta mt-3 text-faint">
+                  P8 · PM · SMB SaaS
+                </footer>
+              </blockquote>
               <div className="flex flex-col gap-6 border-t border-white/10 pt-6">
                 <p className="meta text-night-ink/45">
                   Early guiding principles
@@ -849,6 +761,15 @@ export default function SecurityInJiraCaseStudy() {
                   </div>
                 ))}
               </div>
+              <Prose>
+                <p>
+                  Configure and link missed the 5.5 target. I used the
+                  install and config notes (the term host application,
+                  project settings, and administrator permissions) to shape
+                  the later empty state and the 3 step onboarding modal
+                  that every security tool could use.
+                </p>
+              </Prose>
             </Section>
 
             <Section id="outcome" title="Outcome">
@@ -936,6 +857,14 @@ export default function SecurityInJiraCaseStudy() {
             </Section>
 
             <Section id="impact" title="Impact">
+              <blockquote
+                className="max-w-[640px] border-l-2 pl-6"
+                style={{ borderColor: cs.tone }}
+              >
+                <p className="display text-xl leading-snug text-night-ink md:text-2xl">
+                  TechCrunch described the new experience as groundbreaking.
+                </p>
+              </blockquote>
               <div className="grid gap-4 sm:grid-cols-2">
                 <Stat
                   value="All shipped"
@@ -950,7 +879,7 @@ export default function SecurityInJiraCaseStudy() {
                 <Stat
                   value="6.9"
                   label="SEQ, add tools"
-                  caption="Adding security tools to the site scored 6.9 against a 5.5 target. Configure and link scored 5.2 and 4.9."
+                  caption="Adding security tools to the site scored 6.9 against a 5.5 target. Configure and link scored 5.2 and 4.9. Those misses shaped the later empty state and the 3 step onboarding modal."
                 />
                 <Stat
                   value="5"

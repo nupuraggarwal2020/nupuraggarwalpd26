@@ -145,10 +145,24 @@ const smartDevopsItems: CarouselItem[] = [
   },
 ];
 
+const pipelinesVisionItems: CarouselItem[] = [
+  {
+    kind: "image",
+    src: "/work/pipelines-vision/hero-home.png",
+    alt: "Vision for a collaborative drag and drop pipeline builder",
+  },
+  {
+    kind: "image",
+    src: "/work/pipelines-vision/hero-home-2.png",
+    alt: "Workshop journey mapping across merge, build, test, and deploy",
+  },
+];
+
 function itemsForCase(slug: string): CarouselItem[] {
   if (slug === "canva-ai") return canvaAiItems;
   if (slug === "security-in-jira") return securityInJiraItems;
   if (slug === "smart-devops") return smartDevopsItems;
+  if (slug === "pipelines-vision") return pipelinesVisionItems;
   return placeholderItems;
 }
 
@@ -165,19 +179,13 @@ function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
             <span className="text-night-ink/45">·</span>
             <span className="text-sm text-night-ink/60">{cs.role}</span>
           </div>
-          {cs.slug === "pipelines-vision" ? (
-            <span className="relative shrink-0 cursor-default rounded-full bg-[#f3d2b0] px-5 py-2.5 text-sm font-medium text-ink">
-              Coming soon
-            </span>
-          ) : (
-            <Link
-              href={`/work/${cs.slug}`}
-              className="group relative shrink-0 rounded-full bg-night-ink px-5 py-2.5 text-sm font-medium text-night transition-colors hover:bg-white"
-            >
-              View case study →
-              <GlowBorder />
-            </Link>
-          )}
+          <Link
+            href={`/work/${cs.slug}`}
+            className="group relative shrink-0 rounded-full bg-night-ink px-5 py-2.5 text-sm font-medium text-night transition-colors hover:bg-white"
+          >
+            View case study →
+            <GlowBorder />
+          </Link>
         </div>
         <h2 className="display mt-3 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] lg:whitespace-nowrap">
           {cs.heading}

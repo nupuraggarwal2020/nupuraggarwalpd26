@@ -11,10 +11,7 @@ export function Hero() {
       <p className="absolute inset-x-0 bottom-20 z-10 mx-auto max-w-xl px-6 text-base leading-relaxed text-pretty text-night-ink/70 md:text-lg">
         I bring systems thinking to develop and ship innovative products.
         Currently focused on AI-powered workflows and developer ecosystems at{" "}
-        <strong className="font-semibold text-night-ink">Canva</strong>, in
-        collaboration with{" "}
-        <strong className="font-semibold text-night-ink">OpenAI</strong> and{" "}
-        <strong className="font-semibold text-night-ink">Anthropic</strong>.
+        <strong className="font-semibold text-night-ink">Canva</strong>.
       </p>
       <div className="absolute inset-x-0 bottom-6 z-10">
         <div className="mx-auto max-w-[1600px] px-4 md:px-8">

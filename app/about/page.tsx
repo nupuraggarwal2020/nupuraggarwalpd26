@@ -15,11 +15,18 @@ type Row = {
 };
 
 const experience: Row[] = [
-  { role: "Senior Product Designer", place: "Canva", years: "2024-Present" },
-  { role: "Senior Product Designer", place: "Atlassian", years: "2022-2023" },
-  { role: "Product Designer II", place: "Atlassian", years: "2021-2022" },
-  { role: "Product Designer", place: "Atlassian", years: "2019-2021" },
-  { role: "Product Designer", place: "Microsoft", years: "2017-2019" },
+  { role: "Senior Product Designer", place: "Canva", years: "Jan 2024-Present" },
+  {
+    role: "Senior Product Designer",
+    place: "Atlassian",
+    years: "Apr 2023-Dec 2023",
+  },
+  {
+    role: "Product Designer II",
+    place: "Atlassian",
+    years: "Sep 2019-Mar 2023",
+  },
+  { role: "Product Designer", place: "Microsoft", years: "Jul 2017-Aug 2019" },
 ];
 
 const education: Row[] = [
@@ -41,7 +48,7 @@ const education: Row[] = [
 ];
 
 const rowGrid =
-  "grid grid-cols-[minmax(0,1fr)_8rem] items-start gap-x-6 gap-y-1 py-4 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)_8rem]";
+  "grid grid-cols-[minmax(0,1fr)_10rem] items-start gap-x-6 gap-y-1 py-4 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)_10rem]";
 
 function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
   return (
@@ -59,7 +66,7 @@ function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
             <span className="order-3 col-span-2 min-w-0 text-sm text-night-ink/60 md:order-none md:col-span-1 md:text-base">
               {row.place}
             </span>
-            <span className="w-32 justify-self-end text-right text-sm text-night-ink/45 tabular-nums">
+            <span className="w-40 justify-self-end text-right text-sm text-night-ink/45 tabular-nums">
               {row.years}
             </span>
           </li>
@@ -91,7 +98,9 @@ export default function AboutPage() {
             </p>
             <p>
               What drives me, deep down, is bringing delight and simplicity to
-              create experiences for people. I have a background in fashion,
+              create experiences for people. Enterprise tools should feel as
+              considered as the products people use outside work. I have a
+              background in fashion,
               interaction design, ergonomics and software technology and I
               love exploring the relationship between them. I&apos;m a strong
               believer in community and culture; both have shaped my

@@ -23,13 +23,13 @@ export const mainCases: CaseStudy[] = [
     year: "2025",
     heading: "From single prompt to on-brand design",
     subheading:
-      "Designing for Canva's generative AI inside ChatGPT, Claude, Gemini and Copilot. People generate, edit and apply brand kits without leaving the conversation.",
+      "Designing for Canva's generative AI inside ChatGPT, Claude and Gemini. People generate, edit and apply brand kits without leaving the conversation.",
     proof: [
-      "Live in 4 AI assistants",
-      "180M+ customers",
+      "Live in ChatGPT, Claude and Gemini",
+      "32% MoM MAU after launch",
       "MCP concept to MVP in 5 weeks",
     ],
-    role: "Lead Product Designer · Canva · 2025",
+    role: "Senior Product Designer · Canva · 2025-2026",
     tint: "#eef4d9",
     tone: "#b8d94e",
   },
@@ -51,11 +51,11 @@ export const mainCases: CaseStudy[] = [
     year: "2022",
     heading: "Bringing code visibility to the Jira board",
     subheading:
-      "Three shipped experiences that cut context switching for 10M+ developers: code review swimlanes, smart hover cards, and a unified index of development work.",
+      "Three shipped experiences that cut context switching for millions of developers who use Jira: code review swimlanes, smart hover cards, and a unified index of development work.",
     proof: [
       "3 shipped experiences",
-      "10M+ developers",
       "+4% interaction lift in week one",
+      "Full keyboard and screen-reader support",
     ],
     role: "Product Designer II · Atlassian · 2022",
     tint: "#ece7fb",
@@ -68,7 +68,12 @@ export const mainCases: CaseStudy[] = [
     heading: "Setting a multi-year direction for CI/CD in Bitbucket",
     subheading:
       "A two-week sprint to a validated vision, design principles, and a prioritised multi-year roadmap for CI/CD.",
-    proof: ["2-week sprint", "Validated vision", "Multi-year roadmap"],
+    proof: [
+      "2-week sprint",
+      "40% time-to-first-build",
+      "18-month roadmap",
+      "10M+ developers",
+    ],
     role: "Product Designer · Atlassian · 2021",
     tint: "#fdeadd",
     tone: "#f0964e",

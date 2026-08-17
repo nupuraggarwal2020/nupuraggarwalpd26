@@ -192,7 +192,7 @@ export default function CanvaAiCaseStudy() {
                   <p>
                     I was design lead on Canva&apos;s AI Assistant
                     integrations. The goal was getting Canva into ChatGPT,
-                    Claude, and related surfaces so people could start
+                    Claude and Gemini so people could start
                     creative work where they already were, not only inside
                     our editor.
                   </p>
@@ -207,9 +207,9 @@ export default function CanvaAiCaseStudy() {
                 <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-white/10 pt-6 md:grid-cols-4">
                   {[
                     ["Role", "Design lead"],
-                    ["Team", "2 teams"],
+                    ["Team", "15 people"],
                     ["Timeline", "About 6 months"],
-                    ["Status", "Live · 2025"],
+                    ["Status", "Live Feb 2026"],
                   ].map(([k, v]) => (
                     <div key={k}>
                       <dt className="meta text-night-ink/40">{k}</dt>
@@ -340,8 +340,9 @@ export default function CanvaAiCaseStudy() {
                   I conducted 5 user interviews (60 mins each), analysis
                   of existing CanvaGPT feedback, and a review of Canva AI
                   usage patterns. I partnered with our Research Lead on a
-                  2-week diary study with ten participants across Pro, Team,
-                  and Enterprise tiers.
+                  2-week diary study across Pro, Team, and Enterprise
+                  tiers. Users wanted the assistant to get them 70% of the
+                  way before finishing in Canva.
                 </p>
               </Prose>
               <blockquote
@@ -353,7 +354,7 @@ export default function CanvaAiCaseStudy() {
                   get a broken document generator instead.
                 </p>
                 <footer className="meta mt-3 text-faint">
-                  2-week diary study · 10 participants
+                  2-week diary study
                 </footer>
               </blockquote>
               <div className="flex max-w-[720px] flex-col gap-3">
@@ -485,7 +486,7 @@ export default function CanvaAiCaseStudy() {
                 <Decision
                   index="04"
                   title="Handoff to Canva"
-                  fig={4}
+                  fig={3}
                   figCaption="Landing in Canva with conversation context attached."
                   src="/work/canva-ai/handoff.png"
                   alt="ChatGPT to Canva editor handoff"
@@ -555,7 +556,13 @@ export default function CanvaAiCaseStudy() {
                   multi-format resize prototype showed content
                   prioritization across different aspect ratios. Specs had
                   to line up with real API constraints, not wishful
-                  thinking.
+                  thinking. I vibe-coded high-fidelity interactive
+                  prototypes and ran tests with 16 users to validate the
+                  interaction patterns before we committed them to the
+                  roadmap. I also partnered directly with OpenAI product
+                  and partnerships teams, influencing Canva&apos;s native
+                  ChatGPT connector and shipping the Deep Research
+                  connector.
                 </Collapse>
                 <Collapse eyebrow="04" title="How we stayed aligned">
                   Monday Async Snapshots: visual updates of weekly focus
@@ -607,9 +614,9 @@ export default function CanvaAiCaseStudy() {
                 </p>
               </Prose>
               <div className="grid gap-4 sm:grid-cols-2">
-                <OutcomeCard eyebrow="Live" title="Shipped in four assistants">
-                  Cross-platform integration with ChatGPT, Claude, Gemini
-                  and Copilot.
+                <OutcomeCard eyebrow="Live" title="Shipped in three assistants">
+                  Cross-platform integration with ChatGPT, Claude and Gemini
+                  by February 2026.
                 </OutcomeCard>
                 <OutcomeCard eyebrow="MCP" title="Concept to MVP in 5 weeks">
                   MCP concept to MVP in 5 weeks.
@@ -632,19 +639,19 @@ export default function CanvaAiCaseStudy() {
                   caption="Steps possible with different features unlocking multiturn interactions."
                 />
                 <Stat
-                  value="4"
+                  value="8"
                   label="APIs"
-                  caption="Resize, Brand Kit, Editing, and Autofill."
+                  caption="Eight new Canva APIs shaped directly by design requirements."
                 />
                 <Stat
-                  value="5x"
-                  label="Projected"
-                  caption="Projected 5x increase in AI-driven design usage. Protected market share against native AI design generation."
+                  value="32%"
+                  label="MoM MAU"
+                  caption="Monthly active users of the Canva app in ChatGPT grew 32% month on month in the nine months after launch."
                 />
                 <Stat
-                  value="4"
-                  label="Assistants"
-                  caption="Live in 4 assistants with a scalable UX."
+                  value="+14%"
+                  label="Click-through"
+                  caption="Click-through from assistant to Canva rose 14%. Iteration depth went from one cycle to three before handoff."
                 />
               </div>
               <div className="flex max-w-[720px] flex-col gap-3">

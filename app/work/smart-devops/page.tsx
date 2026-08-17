@@ -275,8 +275,8 @@ export default function SmartDevopsCaseStudy() {
                   <p>
                     If you&apos;ve used Jira, you probably know it as an
                     industry-leading product for software teams to plan and
-                    track work. In this role, I look at it as the backbone of
-                    their toolchain, and I seek ways to help them use
+                    track work. In this role, I looked at it as the backbone
+                    of their toolchain, and I sought ways to help them use
                     integrations and data connections to collaborate better,
                     and ship value quicker.
                   </p>
@@ -312,7 +312,7 @@ export default function SmartDevopsCaseStudy() {
                 </div>
                 <dl className="grid grid-cols-2 gap-x-8 gap-y-5 border-t border-white/10 pt-6 md:grid-cols-4">
                   {[
-                    ["Role", "Leading design for DevOps experiences"],
+                    ["Role", "Product Designer II"],
                     ["Team", "Multiple product teams"],
                     ["Started", "January 2022"],
                     ["Status", "3 experiences shipped"],
@@ -324,37 +324,25 @@ export default function SmartDevopsCaseStudy() {
                   ))}
                 </dl>
                 <div className="flex max-w-[720px] flex-col gap-3">
-                  <Collapse title="Intention">
-                    I think of developer experiences as a core part of a
-                    developer&apos;s life. I believe that they should have
-                    at-par experiences at their place of work as they do in
-                    their personal life. Enterprise tools should consider
-                    their experiences outside of work, like making a booking
-                    with Airbnb, and emulate a similar feeling of delight and
-                    satisfaction. The tools should make them feel empowered,
-                    effective and collaborative. Ideally, to help developers
-                    switch off from work and reduce stress.
-                  </Collapse>
                   <Collapse title="What I owned">
                     <CollapseStack>
                       <p>
-                        I&apos;ve been leading design for DevOps experiences
-                        in Atlassian Agile and DevOps team since January 2022.
-                        I&apos;ve been collaborating closely with researchers
-                        to come up with and execute a research plan for
+                        I led design for DevOps experiences in the Atlassian
+                        Agile and DevOps team from January 2022. I worked
+                        closely with researchers on a research plan for
                         exploratory and usability research at the beginning
                         and end of the project.
                       </p>
                       <p>
-                        At a strategic level, I&apos;ve been working closely
-                        with the PM and data scientists to scope problems and
-                        potential areas for lighting up experiences. I&apos;m
-                        deeply involved in the design which includes defining
-                        aspects like what data to show and how to show it.
+                        At a strategic level, I worked closely with the PM
+                        and data scientists to scope problems and potential
+                        areas for lighting up experiences. I was deeply
+                        involved in the design, including what data to show
+                        and how to show it.
                       </p>
                       <p>
-                        From an execution perspective, I&apos;ve been planning
-                        and prioritizing deliverables. I&apos;ve created
+                        From an execution perspective, I planned and
+                        prioritized deliverables. I created
                         end-to-end UI specs with inputs from UX writers,
                         handed them off to engineers and ensured the fit and
                         finish of the developed bits.
@@ -368,11 +356,10 @@ export default function SmartDevopsCaseStudy() {
                     </CollapseStack>
                   </Collapse>
                   <Collapse title="Who I worked with">
-                    DevOps experiences for developers is an ongoing effort
-                    running in tight collaboration with members from multiple
-                    product teams and multiple disciplines: engineers, product
-                    managers, UX writers, designers, UX researchers and data
-                    scientists.
+                    DevOps experiences for developers ran in tight
+                    collaboration with members from multiple product teams and
+                    multiple disciplines: engineers, product managers, UX
+                    writers, designers, UX researchers and data scientists.
                   </Collapse>
                 </div>
               </div>
@@ -474,7 +461,7 @@ export default function SmartDevopsCaseStudy() {
             <Section id="research" title="Research">
               <Prose>
                 <p>
-                  I&apos;ve identified 4 parts of the DevOps toolchain:
+                  I identified 4 parts of the DevOps toolchain:
                   Installation, Configuration, Connection and Usage.
                 </p>
                 <p>
@@ -522,7 +509,7 @@ export default function SmartDevopsCaseStudy() {
                       creates smart, meaningful experiences by using the data
                       and provides insights to the users on their development
                       work. This is the most creative part of the journey, and
-                      what my role mostly focuses on.
+                      what my role mostly focused on.
                     </p>
                     <Labeled label="Research observation">
                       <p>
@@ -656,8 +643,8 @@ export default function SmartDevopsCaseStudy() {
               <Prose>
                 <p>
                   I worked with the designers and we came up with guiding
-                  principles that have helped us hone our future user
-                  experience and make decisions.
+                  principles that helped us hone the user experience and make
+                  decisions.
                 </p>
               </Prose>
               <div className="grid gap-8 sm:grid-cols-2">
@@ -1060,8 +1047,7 @@ export default function SmartDevopsCaseStudy() {
                       it&apos;s important to stay on the lookout for not
                       creating dark patterns in the process that could burn
                       out users. The amount of information, warnings &amp;
-                      intensity is something that I&apos;ve been conscious
-                      about.
+                      intensity is something I stayed conscious of.
                     </p>
                     <p>
                       Leverage user context to light up relevant warnings.
