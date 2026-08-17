@@ -22,11 +22,26 @@ const experience: Row[] = [
   { role: "Product Designer", place: "Microsoft", years: "2017-2019" },
 ];
 
-// TODO: replace with real education details
 const education: Row[] = [
-  { role: "Your degree here", place: "Your institution here", years: "Years" },
-  { role: "Your degree here", place: "Your institution here", years: "Years" },
+  {
+    role: "Master of Design (M.Des.) in Interaction Design",
+    place: "Industrial Design Centre, IIT Bombay",
+    years: "2015-2017",
+  },
+  {
+    role: "Master Thesis Program (M.Des.) in Interaction Design",
+    place: "TU Darmstadt, Germany",
+    years: "2016-2017",
+  },
+  {
+    role: "Bachelor of Design (B.Des.) in Fashion Design & Technology",
+    place: "NIFT, Delhi",
+    years: "2011-2015",
+  },
 ];
+
+const rowGrid =
+  "grid grid-cols-[minmax(0,1fr)_8rem] items-start gap-x-6 gap-y-1 py-4 md:grid-cols-[minmax(0,1.5fr)_minmax(0,1.2fr)_8rem]";
 
 function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
   return (
@@ -36,15 +51,15 @@ function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
         {rows.map((row, i) => (
           <li
             key={`${label}-${i}-${row.role}-${row.years}`}
-            className={`grid grid-cols-[1fr_auto] items-baseline gap-x-6 gap-y-0.5 py-4 md:grid-cols-[1.3fr_1fr_auto] ${
-              i > 0 ? "border-t border-white/10" : ""
-            }`}
+            className={`${rowGrid} ${i > 0 ? "border-t border-white/10" : ""}`}
           >
-            <span className="font-medium text-night-ink">{row.role}</span>
-            <span className="order-3 col-span-2 text-sm text-night-ink/60 md:order-none md:col-span-1 md:text-base">
+            <span className="min-w-0 font-medium text-night-ink">
+              {row.role}
+            </span>
+            <span className="order-3 col-span-2 min-w-0 text-sm text-night-ink/60 md:order-none md:col-span-1 md:text-base">
               {row.place}
             </span>
-            <span className="text-right text-sm text-night-ink/45">
+            <span className="w-32 justify-self-end text-right text-sm text-night-ink/45 tabular-nums">
               {row.years}
             </span>
           </li>
