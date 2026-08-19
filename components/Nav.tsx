@@ -133,18 +133,22 @@ export function Nav() {
     }
   };
 
+  // One header row so the mark and the pills share a height and a
+  // vertical center. pointer-events stay off on the bar so clicks in
+  // the gap reach the page. Children turn them back on when visible.
+  const chromeEvents = isHidden ? "" : "pointer-events-auto";
+
   return (
-    <>
-      {/* Identity lockup, pinned top-left. h-12 matches the pill's height
-          (h-9 links + p-1.5) so both sit on the same visual centerline.
-          The quiet glass scrim keeps the text legible over card content. */}
+    <header
+      className={`pointer-events-none fixed inset-x-6 top-5 z-50 flex h-12 items-center justify-between ${headerMotion}`}
+    >
       <Link
         href="/"
         aria-label="Home"
         onClick={handleHomeClick}
-        className={`group fixed left-6 top-5 z-50 flex h-12 items-center gap-3 rounded-full p-1 sm:pr-4 ${
+        className={`group flex h-12 items-center gap-3 rounded-full p-1 sm:pr-4 ${
           onAbout ? "bg-night" : "bg-night/60 backdrop-blur-md"
-        } ${headerMotion}`}
+        } ${chromeEvents}`}
       >
         <span className="btn-icon h-10 w-10">
           <Logo className="h-[18px] w-auto" />
@@ -160,41 +164,34 @@ export function Nav() {
         </span>
       </Link>
 
-      {/* Pinned top-right, mirroring the lockup's left-6. pointer-events-none
-          on the wrapper so the hidden nav never swallows clicks; the button
-          row re-enables pointer events while visible. */}
-      <div
-        className={`pointer-events-none fixed right-6 top-5 z-50 flex justify-end ${headerMotion}`}
+      <nav
+        className={`flex h-12 flex-nowrap items-center gap-1.5 sm:gap-2 ${chromeEvents}`}
       >
-        <nav
-          className={`flex items-center gap-2 ${isHidden ? "" : "pointer-events-auto"}`}
+        <Link
+          href="/#work"
+          onClick={handleWorkClick}
+          className="btn-chip group h-10 shrink-0 whitespace-nowrap px-3.5 sm:px-5"
         >
-          <Link
-            href="/#work"
-            onClick={handleWorkClick}
-            className="btn-chip group px-5 py-2.5"
-          >
-            Projects
-            <GlowBorder />
-          </Link>
-          <Link
-            href="/playground"
-            aria-current={pathname === "/playground" ? "page" : undefined}
-            className="btn-chip group px-5 py-2.5"
-          >
-            Playground
-            <GlowBorder />
-          </Link>
-          <Link
-            href="/about"
-            aria-current={pathname === "/about" ? "page" : undefined}
-            className="btn-chip group px-5 py-2.5"
-          >
-            About
-            <GlowBorder />
-          </Link>
-        </nav>
-      </div>
-    </>
+          Projects
+          <GlowBorder />
+        </Link>
+        <Link
+          href="/playground"
+          aria-current={pathname === "/playground" ? "page" : undefined}
+          className="btn-chip group h-10 shrink-0 whitespace-nowrap px-3.5 sm:px-5"
+        >
+          Playground
+          <GlowBorder />
+        </Link>
+        <Link
+          href="/about"
+          aria-current={pathname === "/about" ? "page" : undefined}
+          className="btn-chip group h-10 shrink-0 whitespace-nowrap px-3.5 sm:px-5"
+        >
+          About
+          <GlowBorder />
+        </Link>
+      </nav>
+    </header>
   );
 }

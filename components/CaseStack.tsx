@@ -156,71 +156,71 @@ function itemsForCase(slug: string): CarouselItem[] {
 function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
   return (
     <article
-      className="case-card relative mx-auto flex h-[82svh] w-full max-w-[1600px] flex-col overflow-hidden rounded-3xl border border-white/10 bg-[#1c1b18]/90 text-night-ink backdrop-blur-md shadow-[0_-12px_60px_rgba(0,0,0,0.5)]"
+      className="case-card relative mx-auto h-[82svh] w-full max-w-[1600px] overflow-hidden rounded-3xl border border-white/10 bg-[#1c1b18]/90 text-night-ink backdrop-blur-md shadow-[0_-12px_60px_rgba(0,0,0,0.5)]"
       style={{ zIndex: index + 1 }}
     >
-      <div className="px-6 pb-5 pt-6 md:px-9 md:pb-6 md:pt-9">
-        <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-3">
+      <Link
+        href={`/work/${cs.slug}`}
+        aria-label={`View ${cs.heading} case study`}
+        className="flex h-full min-h-0 flex-col text-inherit no-underline"
+      >
+        <div className="flex flex-col px-6 pb-5 pt-6 md:px-9 md:pb-6 md:pt-9">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <span className="meta text-night-ink/45">Project {index + 1}</span>
             <span className="text-night-ink/45">·</span>
             <span className="text-sm text-night-ink/60">{cs.role}</span>
           </div>
-          <Link
-            href={`/work/${cs.slug}`}
-            className="btn-chip group shrink-0 px-5 py-2.5"
-          >
-            View case study →
+          <h2 className="display mt-3 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] lg:whitespace-nowrap">
+            {cs.heading}
+          </h2>
+          <p className="mt-3 max-w-2xl text-base font-medium leading-relaxed text-night-ink/85 md:text-lg">
+            {cs.subheading}
+          </p>
+          <span className="btn-chip group mt-5 inline-flex w-full items-center justify-center px-5 py-3.5 leading-none md:w-auto md:self-end">
+            View case study
+            <span aria-hidden className="ml-1 inline-block translate-y-px">
+              →
+            </span>
             <GlowBorder />
-          </Link>
+          </span>
         </div>
-        <h2 className="display mt-3 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] lg:whitespace-nowrap">
-          {cs.heading}
-        </h2>
-        <p className="mt-3 max-w-2xl text-base font-medium leading-relaxed text-night-ink/85 md:text-lg">
-          {cs.subheading}
-        </p>
-      </div>
 
-      {cs.slug === "canva-ai" ? (
-        <Link
-          href="/work/canva-ai"
-          aria-label="View Canva AI case study"
-          className="relative block min-h-0 flex-1 overflow-hidden rounded-none [container-type:size]"
-        >
-          <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
-            {/* Same 8/5 slide math as the image wells. Grows to the card
-               width when the leftover well is wider than 8/5. */}
-            <div className="absolute inset-y-0 left-0 h-full w-[max(100%,calc(100cqh*8/5))] overflow-hidden rounded-none">
-              <CanvaChatHero variant="home" />
+        {cs.slug === "canva-ai" ? (
+          <div className="relative min-h-0 flex-1 overflow-hidden rounded-none [container-type:size]">
+            <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
+              {/* Same 8/5 slide math as the image wells. Grows to the card
+                 width when the leftover well is wider than 8/5. */}
+              <div className="absolute inset-y-0 left-0 h-full w-[max(100%,calc(100cqh*8/5))] overflow-hidden rounded-none">
+                <CanvaChatHero variant="home" />
+              </div>
             </div>
           </div>
-        </Link>
-      ) : (
-        <div className="relative min-h-0 flex-1 overflow-hidden [container-type:size]">
-          <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
-            <div className="marquee-track flex h-full w-max items-stretch">
-              {[0, 1].map((copy) => (
-                <div
-                  key={copy}
-                  aria-hidden={copy === 1}
-                  className="flex h-full items-stretch gap-5 pr-5"
-                >
-                  {itemsForCase(cs.slug).map((item, i) =>
-                    item.kind === "image" ? (
-                      <ImagePanel key={i} src={item.src} alt={item.alt} />
-                    ) : (
-                      <div key={i} className={SLIDE_BOX}>
-                        <item.Panel tone={cs.tone} />
-                      </div>
-                    ),
-                  )}
-                </div>
-              ))}
+        ) : (
+          <div className="relative min-h-0 flex-1 overflow-hidden [container-type:size]">
+            <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
+              <div className="marquee-track flex h-full w-max items-stretch">
+                {[0, 1].map((copy) => (
+                  <div
+                    key={copy}
+                    aria-hidden={copy === 1}
+                    className="flex h-full items-stretch gap-5 pr-5"
+                  >
+                    {itemsForCase(cs.slug).map((item, i) =>
+                      item.kind === "image" ? (
+                        <ImagePanel key={i} src={item.src} alt={item.alt} />
+                      ) : (
+                        <div key={i} className={SLIDE_BOX}>
+                          <item.Panel tone={cs.tone} />
+                        </div>
+                      ),
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </Link>
     </article>
   );
 }
