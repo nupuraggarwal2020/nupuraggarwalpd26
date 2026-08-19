@@ -5,6 +5,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageFade } from "@/components/PageFade";
 import { email, instagram, linkedin } from "@/lib/content";
+import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
 const saans = localFont({
@@ -37,7 +38,7 @@ const saansMono = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nupur.works"),
+  metadataBase: new URL(siteUrl),
   title: "Nupur Aggarwal — Product Designer",
   description:
     "I design how complex technical systems become usable products. AI-powered workflows and developer ecosystems at Canva, in collaboration with OpenAI and Anthropic.",
@@ -53,7 +54,7 @@ const personSchema = {
   "@type": "Person",
   name: "Nupur Aggarwal",
   jobTitle: "Senior Product Designer",
-  url: "https://nupur.works",
+  url: siteUrl,
   email: `mailto:${email}`,
   sameAs: [linkedin, instagram],
   worksFor: {

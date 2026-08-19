@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { mainCases } from "@/lib/content";
+import { siteUrl } from "@/lib/site";
 
-const BASE = "https://nupur.works";
+const BASE = siteUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   /* Only the finished case studies: the "coming soon" projects stay out
