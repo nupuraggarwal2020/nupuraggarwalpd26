@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { ProofPills } from "@/components/case/ProofPills";
 import { getCase, mainCases, moreProjects } from "@/lib/content";
 
@@ -33,7 +31,6 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <Nav />
       <main className="relative z-10 mb-[560px] rounded-b-[48px] bg-night md:mb-[600px]">
         <section className="mx-auto flex min-h-[80svh] max-w-4xl flex-col justify-center px-6 py-40">
           <p className="meta flex items-center gap-2 text-faint">
@@ -63,7 +60,6 @@ export default async function CaseStudyPage({
           </Link>
         </section>
       </main>
-      <Footer />
     </>
   );
 }

@@ -1,13 +1,13 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { GlowBorder } from "@/components/GlowBorder";
 import { CaseToc, type TocItem } from "@/components/case/CaseToc";
 import { Collapse } from "@/components/case/Collapse";
 import { CaseCarousel } from "@/components/case/CaseCarousel";
 import { Media } from "@/components/case/Media";
+import { CanvaChatHero } from "@/components/case/CanvaChatHero";
 import { ProofPills } from "@/components/case/ProofPills";
+import { QuoteReveal } from "@/components/case/QuoteReveal";
 import { mainCases } from "@/lib/content";
 
 const cs = mainCases.find((c) => c.slug === "canva-ai")!;
@@ -153,7 +153,6 @@ function Decision({
 export default function CanvaAiCaseStudy() {
   return (
     <>
-      <Nav />
       <main className="relative z-10 mb-[560px] rounded-b-[48px] bg-night shadow-[0_24px_60px_rgba(0,0,0,0.6)] md:mb-[600px]">
         <header className="mx-auto max-w-5xl px-6 pt-36 pb-14 md:pt-44">
           <p className="meta flex items-center gap-2 text-faint">
@@ -173,12 +172,7 @@ export default function CanvaAiCaseStudy() {
         </header>
 
         <div className="mx-auto max-w-5xl px-6">
-          <Media
-            src="/work/canva-ai/hero.png"
-            alt="ChatGPT creating on-brand Chopify Burger social posts via Canva"
-            tint={cs.tint}
-            tone={cs.tone}
-          />
+          <CanvaChatHero />
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-x-16 px-6 pt-16 pb-24 lg:grid-cols-[160px_1fr]">
@@ -345,27 +339,34 @@ export default function CanvaAiCaseStudy() {
                   way before finishing in Canva.
                 </p>
               </Prose>
-              <blockquote
-                className="max-w-[640px] border-l-2 pl-6"
-                style={{ borderColor: cs.tone }}
-              >
-                <p className="display text-xl leading-snug text-night-ink md:text-2xl">
-                  CanvaGPT users want a creative brainstorming partner, but
-                  get a broken document generator instead.
-                </p>
-                <footer className="meta mt-3 text-faint">
-                  2-week diary study
-                </footer>
-              </blockquote>
+              <QuoteReveal
+                quote="CanvaGPT users want a creative brainstorming partner, but get a broken document generator instead."
+                attribution="2-week diary study"
+                tone={cs.tone}
+              />
+              <div className="grid items-center gap-10 pt-6 lg:grid-cols-2 lg:gap-14">
+                <div>
+                  <p className="meta text-night-ink/40">01</p>
+                  <h3 className="display mt-3 max-w-[20ch] text-2xl md:text-3xl">
+                    What users needed
+                  </h3>
+                  <p className="mt-4 max-w-[42ch] text-sm leading-relaxed text-night-ink/70">
+                    Access to existing Canva context, quality matching
+                    alternatives, time-saving workflows, and honest
+                    communication about capabilities. Less than 1% of ChatGPT
+                    users knew the Canva integration existed. No access to
+                    users&apos; existing Canva assets meant starting from
+                    scratch every time.
+                  </p>
+                </div>
+                <Media
+                  src="/work/canva-ai/hero-2.png"
+                  alt="ChatGPT conversation with a generated Canva presentation"
+                  tint={cs.tint}
+                  tone={cs.tone}
+                />
+              </div>
               <div className="flex max-w-[720px] flex-col gap-3">
-                <Collapse eyebrow="01" title="What users needed">
-                  Access to existing Canva context, quality matching
-                  alternatives, time-saving workflows, and honest
-                  communication about capabilities. Less than 1% of ChatGPT
-                  users knew the Canva integration existed. No access to
-                  users&apos; existing Canva assets meant starting from
-                  scratch every time.
-                </Collapse>
                 <Collapse eyebrow="02" title="What was breaking">
                   Oversimplified prompts, an isolated experience, false task
                   completion claims, and premature Canva handoffs. Bottom
@@ -707,7 +708,6 @@ export default function CanvaAiCaseStudy() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

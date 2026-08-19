@@ -1,7 +1,5 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { GlowBorder } from "@/components/GlowBorder";
 import { CaseToc, type TocItem } from "@/components/case/CaseToc";
 import { Collapse } from "@/components/case/Collapse";
@@ -175,7 +173,6 @@ function Decision({
 export default function PipelinesVisionCaseStudy() {
   return (
     <>
-      <Nav />
       <main className="relative z-10 mb-[560px] rounded-b-[48px] bg-night shadow-[0_24px_60px_rgba(0,0,0,0.6)] md:mb-[600px]">
         <header className="mx-auto max-w-5xl px-6 pt-36 pb-14 md:pt-44">
           <p className="meta flex items-center gap-2 text-faint">
@@ -762,7 +759,6 @@ export default function PipelinesVisionCaseStudy() {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 }

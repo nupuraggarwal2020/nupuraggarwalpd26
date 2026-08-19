@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useId, useState } from "react";
+import { GlowBorder } from "@/components/GlowBorder";
 import { PersonaOutline } from "@/components/case/PersonaOutline";
 
 export type CaseCarouselSlide = {
@@ -108,10 +109,10 @@ export function CaseCarousel({
           type="button"
           onClick={() => go(index - 1)}
           aria-label="Previous image"
-          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-night-ink/70 transition-colors duration-300 hover:bg-white/[0.08] hover:text-night-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ outlineColor: tone }}
+          className="btn-icon h-8 w-8"
         >
           <Arrow dir="prev" />
+          <GlowBorder />
         </button>
 
         <div className="flex items-center gap-1.5 px-1">
@@ -143,10 +144,10 @@ export function CaseCarousel({
           type="button"
           onClick={() => go(index + 1)}
           aria-label="Next image"
-          className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/[0.03] text-night-ink/70 transition-colors duration-300 hover:bg-white/[0.08] hover:text-night-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-          style={{ outlineColor: tone }}
+          className="btn-icon h-8 w-8"
         >
           <Arrow dir="next" />
+          <GlowBorder />
         </button>
       </div>
 

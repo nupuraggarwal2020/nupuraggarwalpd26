@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
+import { PageFade } from "@/components/PageFade";
 import "./globals.css";
 
 const saans = localFont({
@@ -49,7 +52,11 @@ export default function RootLayout({
       data-scroll-behavior="smooth"
       className={`${saans.variable} ${saansMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <Nav />
+        <PageFade>{children}</PageFade>
+        <Footer />
+      </body>
     </html>
   );
 }

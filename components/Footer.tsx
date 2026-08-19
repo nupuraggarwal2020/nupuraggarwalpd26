@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -29,7 +30,10 @@ function InstagramIcon() {
   );
 }
 
-export function Footer({ quiet = false }: { quiet?: boolean }) {
+export function Footer({ quiet }: { quiet?: boolean } = {}) {
+  const pathname = usePathname();
+  const isQuiet =
+    quiet ?? (pathname === "/about" || pathname === "/playground");
   const footerRef = useRef<HTMLElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
   const [copied, setCopied] = useState(false);
@@ -49,7 +53,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
 
   useGSAP(
     () => {
-      if (quiet) return;
+      if (isQuiet) return;
 
       if (pillRef.current) {
         moveTo.current = {
@@ -79,7 +83,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
         };
       }
     },
-    { scope: footerRef, dependencies: [quiet] },
+    { scope: footerRef, dependencies: [isQuiet] },
   );
 
   function showPill() {
@@ -138,9 +142,9 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
     <footer
       ref={footerRef}
       onClick={copyEmail}
-      onMouseMove={quiet ? undefined : onMove}
-      onMouseEnter={quiet ? undefined : showPill}
-      onMouseLeave={quiet ? undefined : hidePill}
+      onMouseMove={isQuiet ? undefined : onMove}
+      onMouseEnter={isQuiet ? undefined : showPill}
+      onMouseLeave={isQuiet ? undefined : hidePill}
       className="fixed inset-x-0 bottom-0 z-0 flex h-[560px] cursor-pointer flex-col justify-between bg-night px-6 pt-20 pb-6 text-night-ink md:h-[600px] md:px-12"
     >
       <div className="flex items-start justify-between">
@@ -149,7 +153,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
               conic gradient (beam palette) flows through the logo's shape. */}
           <div ref={logoWrapRef} aria-hidden className="relative w-max">
             <Logo className="h-14 w-auto text-night-ink/40" />
-            {quiet ? null : (
+            {isQuiet ? null : (
               <span
                 className="logo-flow"
                 style={{ WebkitMaskImage: LOGO_MASK, maskImage: LOGO_MASK }}
@@ -168,7 +172,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
             target="_blank"
             rel="noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition-colors hover:bg-white/20"
+            className="btn-icon group h-11 w-11"
             aria-label="Instagram"
           >
             <InstagramIcon />
@@ -179,7 +183,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
             target="_blank"
             rel="noreferrer"
             onClick={(e) => e.stopPropagation()}
-            className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-sm font-semibold transition-colors hover:bg-white/20"
+            className="btn-icon group h-11 w-11 text-sm font-semibold"
             aria-label="LinkedIn"
           >
             in
@@ -202,7 +206,7 @@ export function Footer({ quiet = false }: { quiet?: boolean }) {
         </div>
       </div>
 
-      {quiet ? null : (
+      {isQuiet ? null : (
         <span
           ref={pillRef}
           className="pointer-events-none absolute top-0 left-0 z-10 rounded-full bg-night-ink px-4 py-2 text-sm font-semibold whitespace-nowrap text-night shadow-lg"

@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
-import { Footer } from "@/components/Footer";
 import { GlowBorder } from "@/components/GlowBorder";
 import { email } from "@/lib/content";
 
@@ -78,9 +76,7 @@ function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
 
 export default function AboutPage() {
   return (
-    <>
-      <Nav />
-      <main className="about-page relative z-10 mb-[560px] min-h-[calc(100svh+120px)] overflow-x-hidden rounded-b-[48px] bg-night md:mb-[600px]">
+    <main className="about-page relative z-10 mb-[560px] min-h-[calc(100svh+120px)] overflow-x-hidden rounded-b-[48px] bg-night md:mb-[600px]">
         <section className="mx-auto max-w-3xl px-6 pt-40 pb-20 md:pt-48">
           <p className="meta text-night-ink/45">About</p>
           <h1 className="display mt-4 font-bold text-4xl md:text-5xl">
@@ -130,13 +126,13 @@ export default function AboutPage() {
         <section className="mx-auto max-w-3xl px-6 pb-40">
           <div className="group relative rounded-3xl">
             <details className="about-panel rounded-3xl border border-white/10 bg-[#1c1b18]">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl px-6 py-5 select-none [&::-webkit-details-marker]:hidden md:px-8 md:py-6">
+              <summary className="group flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl px-6 py-5 select-none [&::-webkit-details-marker]:hidden md:px-8 md:py-6">
                 <span className="display font-bold text-xl text-night-ink md:text-2xl">
                   Experience and education
                 </span>
                 <span
                   aria-hidden
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-night-ink/70 transition-transform duration-300 [details[open]_&]:rotate-45"
+                  className="btn-icon h-9 w-9 transition-transform duration-300 motion-reduce:transition-none [details[open]_&]:rotate-45"
                 >
                   <svg
                     width="14"
@@ -149,6 +145,7 @@ export default function AboutPage() {
                   >
                     <path d="M7 1v12M1 7h12" />
                   </svg>
+                  <GlowBorder />
                 </span>
               </summary>
               <div className="space-y-10 px-6 pt-2 pb-8 md:px-8 md:pb-10">
@@ -159,8 +156,6 @@ export default function AboutPage() {
             <GlowBorder />
           </div>
         </section>
-      </main>
-      <Footer quiet />
-    </>
+    </main>
   );
 }

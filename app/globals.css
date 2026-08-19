@@ -118,9 +118,79 @@ html:has(.about-page) body {
 
 /* Capped at 1s per hover: a single non-looping orbit that fades itself in
    and back out. `both` fill keeps it at opacity 0 once done; leaving and
-   re-entering removes/re-applies the animation, restarting it. */
-.group:hover .glow-border {
-  animation: beam-orbit 1s linear both;
+   re-entering removes/re-applies the animation, restarting it.
+   Direct-child (and btn-icon child) so a card group does not also
+   shimmer nested chrome buttons. */
+@media (hover: hover) and (pointer: fine) {
+  .group:hover > .glow-border,
+  .group:hover > .btn-icon > .glow-border,
+  .btn-icon:hover > .glow-border,
+  .btn-chip:hover > .glow-border {
+    animation: beam-orbit 1s linear both;
+  }
+}
+
+/* Site chrome buttons. Rest: medium-dark gray, white content.
+   Hover: GlowBorder beam (above). Pressed / focus / selected: thin cream outline. */
+:root {
+  --btn-fill: #2a2a28;
+  --btn-ink: var(--color-night-ink);
+  --btn-outline: rgba(245, 243, 238, 0.55);
+}
+
+.btn-icon,
+.btn-chip {
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  border: 0;
+  background: var(--btn-fill);
+  color: var(--btn-ink);
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: 1.5px solid transparent;
+  outline-offset: 2px;
+  transition:
+    outline-color 0.16s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btn-icon {
+  flex-shrink: 0;
+  border-radius: 9999px;
+}
+
+.btn-chip {
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+.btn-icon:active,
+.btn-chip:active,
+.btn-icon:focus-visible,
+.btn-chip:focus-visible,
+.btn-icon[aria-current],
+.btn-chip[aria-current],
+.btn-icon[aria-expanded="true"],
+.btn-chip[aria-expanded="true"],
+button[aria-expanded="true"] > .btn-icon,
+details[open] > summary .btn-icon,
+a:focus-visible .btn-icon,
+a:active .btn-icon,
+button:focus-visible .btn-icon,
+button:active .btn-icon,
+summary:focus-visible .btn-icon,
+summary:active .btn-icon {
+  outline-color: var(--btn-outline);
 }
 
 @keyframes beam-orbit {
@@ -165,12 +235,69 @@ html:has(.about-page) body {
   opacity: var(--flow-glow, 0);
 }
 
+/* Page sheet fade + blur. Nav and the footer curtain stay outside this
+   node so they do not remount. Idle uses filter: none (not blur(0)) so
+   the wrapper does not become a containing block for GSAP pins. */
+.page-fade {
+  opacity: 1;
+  filter: none;
+  transition:
+    opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    filter 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.page-fade.is-animating {
+  opacity: 0;
+  filter: blur(7px);
+  pointer-events: none;
+  will-change: opacity, filter;
+}
+
+/* Thinking Orbs canvases (lib/thinking-orbs.js). Block display removes the
+   inline canvas baseline gap under each orb. */
+[data-thinking-orb] {
+  display: block;
+}
+
+/* SplitText word wrappers. inline-block lets transform + filter sit
+   on each word without breaking the centered, wrapping heading. */
+.hero-word,
+.hero-sub-word {
+  display: inline-block;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .page-fade {
+    transition:
+      opacity 0.01s linear,
+      filter 0.01s linear;
+    filter: none;
+  }
+
+  .page-fade.is-animating {
+    opacity: 0;
+    filter: none;
+    will-change: auto;
+  }
+
+  .btn-icon,
+  .btn-chip {
+    transition: outline-color 0.16s cubic-bezier(0.23, 1, 0.32, 1);
+  }
   .glow-border {
     animation: none;
     opacity: 0 !important;
   }
   .logo-flow {
     opacity: 0 !important;
+  }
+  .hero-title,
+  .hero-sub,
+  .hero-word,
+  .hero-sub-word {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    visibility: visible !important;
   }
 }

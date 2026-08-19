@@ -142,11 +142,11 @@ export function Nav() {
         href="/"
         aria-label="Home"
         onClick={handleHomeClick}
-        className={`fixed left-6 top-5 z-50 flex h-12 items-center gap-3 rounded-full p-1 sm:pr-4 ${
+        className={`group fixed left-6 top-5 z-50 flex h-12 items-center gap-3 rounded-full p-1 sm:pr-4 ${
           onAbout ? "bg-night" : "bg-night/60 backdrop-blur-md"
         } ${headerMotion}`}
       >
-        <span className="group relative flex h-10 w-10 items-center justify-center rounded-full bg-night-ink text-night">
+        <span className="btn-icon h-10 w-10">
           <Logo className="h-[18px] w-auto" />
           <GlowBorder />
         </span>
@@ -172,21 +172,23 @@ export function Nav() {
           <Link
             href="/#work"
             onClick={handleWorkClick}
-            className={`group relative rounded-full border border-line px-5 py-2.5 text-sm font-medium text-ink shadow-[0_2px_16px_rgba(22,20,15,0.08)] transition-colors hover:bg-canvas ${
-              onAbout ? "bg-card" : "bg-card/90 backdrop-blur-md"
-            }`}
+            className="btn-chip group px-5 py-2.5"
           >
             Projects
             <GlowBorder />
           </Link>
           <Link
+            href="/playground"
+            aria-current={pathname === "/playground" ? "page" : undefined}
+            className="btn-chip group px-5 py-2.5"
+          >
+            Playground
+            <GlowBorder />
+          </Link>
+          <Link
             href="/about"
             aria-current={pathname === "/about" ? "page" : undefined}
-            className={`group relative rounded-full border px-5 py-2.5 text-sm font-medium shadow-[0_2px_16px_rgba(22,20,15,0.08)] transition-colors ${
-              pathname === "/about"
-                ? "border-ink bg-ink text-canvas"
-                : "border-line bg-card/90 text-ink backdrop-blur-md hover:bg-canvas"
-            }`}
+            className="btn-chip group px-5 py-2.5"
           >
             About
             <GlowBorder />

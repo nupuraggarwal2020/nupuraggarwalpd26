@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { GlowBorder } from "@/components/GlowBorder";
 
 /**
  * A single collapsible row — used for process steps and asides.
@@ -26,7 +27,7 @@ export function Collapse({
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left"
+        className="group flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left"
       >
         <span className="flex items-baseline gap-3">
           {eyebrow && (
@@ -36,21 +37,24 @@ export function Collapse({
             {title}
           </span>
         </span>
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          aria-hidden
-          className={`shrink-0 text-night-ink/50 transition-transform duration-300 ${
-            open ? "rotate-180" : ""
-          }`}
-        >
-          <path d="M2.5 5l4.5 4.5L11.5 5" />
-        </svg>
+        <span className="btn-icon h-9 w-9">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 14 14"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            aria-hidden
+            className={`transition-transform duration-300 motion-reduce:transition-none ${
+              open ? "rotate-180" : ""
+            }`}
+          >
+            <path d="M2.5 5l4.5 4.5L11.5 5" />
+          </svg>
+          <GlowBorder />
+        </span>
       </button>
       <div
         className={`grid transition-[grid-template-rows] duration-300 ease-out ${

@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { mainCases, type CaseStudy } from "@/lib/content";
 import { GlowBorder } from "./GlowBorder";
+import { CanvaChatHero } from "./case/CanvaChatHero";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -106,28 +107,15 @@ const placeholderItems: CarouselItem[] = [
   { kind: "panel", Panel: ChipPanel },
 ];
 
-const canvaAiItems: CarouselItem[] = [
-  {
-    kind: "image",
-    src: "/work/canva-ai/hero-home.png",
-    alt: "ChatGPT creating on-brand Chopify Burger social posts via Canva",
-  },
-  {
-    kind: "image",
-    src: "/work/canva-ai/hero-home-2.png",
-    alt: "Canva in chat resizing a poster and drafting a Q1 pitch deck",
-  },
-];
-
 const securityInJiraItems: CarouselItem[] = [
   {
     kind: "image",
-    src: "/work/security-in-jira/hero.png",
+    src: "/work/security-in-jira/hero-home.png",
     alt: "Jira Security setup state. Connect your tools to manage security work in one place.",
   },
   {
     kind: "image",
-    src: "/work/security-in-jira/hero-2.png",
+    src: "/work/security-in-jira/hero-home-2.png",
     alt: "Jira Security for the Beyond Gravity project, with a vulnerabilities table.",
   },
 ];
@@ -159,7 +147,6 @@ const pipelinesVisionItems: CarouselItem[] = [
 ];
 
 function itemsForCase(slug: string): CarouselItem[] {
-  if (slug === "canva-ai") return canvaAiItems;
   if (slug === "security-in-jira") return securityInJiraItems;
   if (slug === "smart-devops") return smartDevopsItems;
   if (slug === "pipelines-vision") return pipelinesVisionItems;
@@ -181,7 +168,7 @@ function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
           </div>
           <Link
             href={`/work/${cs.slug}`}
-            className="group relative shrink-0 rounded-full bg-night-ink px-5 py-2.5 text-sm font-medium text-night transition-colors hover:bg-white"
+            className="btn-chip group shrink-0 px-5 py-2.5"
           >
             View case study →
             <GlowBorder />
@@ -195,29 +182,45 @@ function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
         </p>
       </div>
 
-      <div className="relative min-h-0 flex-1 overflow-hidden [container-type:size]">
-        <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
-          <div className="marquee-track flex h-full w-max items-stretch">
-            {[0, 1].map((copy) => (
-              <div
-                key={copy}
-                aria-hidden={copy === 1}
-                className="flex h-full items-stretch gap-5 pr-5"
-              >
-                {itemsForCase(cs.slug).map((item, i) =>
-                  item.kind === "image" ? (
-                    <ImagePanel key={i} src={item.src} alt={item.alt} />
-                  ) : (
-                    <div key={i} className={SLIDE_BOX}>
-                      <item.Panel tone={cs.tone} />
-                    </div>
-                  ),
-                )}
-              </div>
-            ))}
+      {cs.slug === "canva-ai" ? (
+        <Link
+          href="/work/canva-ai"
+          aria-label="View Canva AI case study"
+          className="relative block min-h-0 flex-1 overflow-hidden rounded-none [container-type:size]"
+        >
+          <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
+            {/* Same 8/5 slide math as the image wells. Grows to the card
+               width when the leftover well is wider than 8/5. */}
+            <div className="absolute inset-y-0 left-0 h-full w-[max(100%,calc(100cqh*8/5))] overflow-hidden rounded-none">
+              <CanvaChatHero variant="home" />
+            </div>
+          </div>
+        </Link>
+      ) : (
+        <div className="relative min-h-0 flex-1 overflow-hidden [container-type:size]">
+          <div className="marquee-parallax h-full min-h-0 will-change-transform [transform:translate3d(0,0,0)]">
+            <div className="marquee-track flex h-full w-max items-stretch">
+              {[0, 1].map((copy) => (
+                <div
+                  key={copy}
+                  aria-hidden={copy === 1}
+                  className="flex h-full items-stretch gap-5 pr-5"
+                >
+                  {itemsForCase(cs.slug).map((item, i) =>
+                    item.kind === "image" ? (
+                      <ImagePanel key={i} src={item.src} alt={item.alt} />
+                    ) : (
+                      <div key={i} className={SLIDE_BOX}>
+                        <item.Panel tone={cs.tone} />
+                      </div>
+                    ),
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </article>
   );
 }

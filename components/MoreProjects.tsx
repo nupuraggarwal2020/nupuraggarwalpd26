@@ -7,13 +7,13 @@ export function MoreProjects() {
     <section className="mx-auto max-w-[1600px] px-4 pb-32 md:px-8">
       <div className="group relative rounded-3xl">
         <details className="about-panel rounded-3xl border border-white/10 bg-[#1c1b18]">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl px-6 py-5 select-none [&::-webkit-details-marker]:hidden md:px-8 md:py-6">
+          <summary className="group flex cursor-pointer list-none items-center justify-between gap-4 rounded-3xl px-6 py-5 select-none [&::-webkit-details-marker]:hidden md:px-8 md:py-6">
             <span className="display font-bold text-xl text-night-ink md:text-2xl">
               More projects
             </span>
             <span
               aria-hidden
-              className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-night-ink/70 transition-transform duration-300 [details[open]_&]:rotate-45"
+              className="btn-icon h-9 w-9 transition-transform duration-300 motion-reduce:transition-none [details[open]_&]:rotate-45"
             >
               <svg
                 width="14"
@@ -26,6 +26,7 @@ export function MoreProjects() {
               >
                 <path d="M7 1v12M1 7h12" />
               </svg>
+              <GlowBorder />
             </span>
           </summary>
           <div className="px-6 pt-2 pb-8 md:px-8 md:pb-10">
