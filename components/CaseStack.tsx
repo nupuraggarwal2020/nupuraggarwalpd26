@@ -165,24 +165,26 @@ function CaseCard({ cs, index }: { cs: CaseStudy; index: number }) {
         className="flex h-full min-h-0 flex-col text-inherit no-underline"
       >
         <div className="flex flex-col px-6 pb-5 pt-6 md:px-9 md:pb-6 md:pt-9">
-          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="meta text-night-ink/45">Project {index + 1}</span>
-            <span className="text-night-ink/45">·</span>
-            <span className="text-sm text-night-ink/60">{cs.role}</span>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between md:gap-x-4">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+              <span className="meta text-night-ink/45">Project {index + 1}</span>
+              <span className="text-night-ink/45">·</span>
+              <span className="text-sm text-night-ink/60">{cs.role}</span>
+            </div>
+            <span className="btn-chip group mt-3.5 mb-3.5 inline-flex w-full items-center justify-center px-5 py-3.5 leading-none md:mt-0 md:mb-0 md:w-auto md:shrink-0">
+              View case study
+              <span aria-hidden className="ml-1 inline-block translate-y-px">
+                →
+              </span>
+              <GlowBorder />
+            </span>
           </div>
-          <h2 className="display mt-3 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] lg:whitespace-nowrap">
+          <h2 className="display mt-0 font-bold text-[clamp(1.6rem,2.6vw,2.5rem)] md:mt-3 lg:whitespace-nowrap">
             {cs.heading}
           </h2>
           <p className="mt-3 max-w-2xl text-base font-medium leading-relaxed text-night-ink/85 md:text-lg">
             {cs.subheading}
           </p>
-          <span className="btn-chip group mt-5 inline-flex w-full items-center justify-center px-5 py-3.5 leading-none md:w-auto md:self-end">
-            View case study
-            <span aria-hidden className="ml-1 inline-block translate-y-px">
-              →
-            </span>
-            <GlowBorder />
-          </span>
         </div>
 
         {cs.slug === "canva-ai" ? (
