@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageFade } from "@/components/PageFade";
@@ -53,6 +54,21 @@ export default function RootLayout({
       className={`${saans.variable} ${saansMono.variable}`}
     >
       <body>
+        {/* Google tag (gtag.js) */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-42FH7DW24K"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-42FH7DW24K');
+          `}
+        </Script>
         <Nav />
         <PageFade>{children}</PageFade>
         <Footer />

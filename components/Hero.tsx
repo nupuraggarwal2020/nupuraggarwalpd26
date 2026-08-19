@@ -7,7 +7,7 @@ export function Hero() {
       <HeroParticles />
       <HeroText />
       <div className="absolute inset-x-0 bottom-6 z-10">
-        <div className="mx-auto max-w-[1600px] px-4 md:px-8">
+        <div className="mx-auto max-w-[1600px] px-4 text-left md:px-8">
           <span className="meta text-night-ink/60">Projects</span>
         </div>
       </div>

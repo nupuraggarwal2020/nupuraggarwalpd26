@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { GlowBorder } from "@/components/GlowBorder";
 import { email } from "@/lib/content";
 
@@ -82,6 +83,19 @@ export default function AboutPage() {
           <h1 className="display mt-4 font-bold text-4xl md:text-5xl">
             Bringing opportunities to life and making things happen.
           </h1>
+
+          {/* Same chrome language as the site buttons: a full-round shape
+              with the traveling GlowBorder beam on hover. */}
+          <div className="group relative mt-10 h-24 w-24 rounded-full md:h-28 md:w-28">
+            <Image
+              src="/about/nupur-portrait.png"
+              alt="Nupur Aggarwal"
+              width={480}
+              height={480}
+              className="h-full w-full rounded-full border border-white/10 object-cover"
+            />
+            <GlowBorder />
+          </div>
 
           <div className="mt-10 max-w-2xl space-y-6 text-base leading-relaxed text-night-ink/80 md:text-lg">
             <p>

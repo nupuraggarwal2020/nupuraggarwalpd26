@@ -1,11 +1,12 @@
-/* Light ChatGPT 5 + Canva chrome. Design size 1024x636, scaled to the figure. */
+/* The Canva result card only (the ChatGPT chrome around it was removed).
+   Design size 680x310, scaled to the figure. */
 
 .stage {
   position: relative;
   isolation: isolate;
   width: 100%;
   overflow: hidden;
-  aspect-ratio: 1024 / 636;
+  aspect-ratio: 680 / 310;
   background: #ffffff;
   container-type: size;
 }
@@ -14,15 +15,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: grid;
-  width: 1024px;
-  height: 636px;
-  grid-template-columns: 56px 1fr;
-  grid-template-rows: 52px 1fr 78px;
-  grid-template-areas:
-    "rail top"
-    "rail thread"
-    "rail dock";
+  width: 680px;
+  height: 310px;
   background: #ffffff;
   color: #1a1a1a;
   font-family:
@@ -30,7 +24,7 @@
     system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   transform-origin: 0 0;
-  scale: calc(100cqw / 1024px);
+  scale: calc(100cqw / 680px);
   pointer-events: none;
 }
 
@@ -43,173 +37,16 @@
   white-space: nowrap;
 }
 
-/* --- Rail --- */
-
-.rail {
-  display: flex;
-  grid-area: rail;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 0 16px;
-  border-right: 1px solid #efefef;
-  color: #5d5d5d;
-}
-
-.railLogo {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  margin-bottom: 8px;
-  place-items: center;
-}
-
-.railBtn {
-  display: grid;
-  width: 36px;
-  height: 36px;
-  place-items: center;
-  border-radius: 10px;
-}
-
-/* --- Top bar --- */
-
-.topbar {
-  display: flex;
-  grid-area: top;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 22px 0 18px;
-}
-
-.model {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #1a1a1a;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.modelChevron {
-  display: grid;
-  place-items: center;
-  color: #8a8a8a;
-}
-
-.topRight {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: #4a4a4a;
-}
-
-.share {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-size: 13.5px;
-  font-weight: 500;
-}
-
-.more {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-}
-
-/* --- Thread --- */
-
-.thread {
-  display: flex;
-  grid-area: thread;
-  min-height: 0;
-  flex-direction: column;
-  padding: 0 36px 8px 28px;
-}
-
-.prev {
-  height: 22px;
-  overflow: hidden;
-  margin: 0 0 10px;
-}
-
-.prevTrack {
-  display: flex;
-  gap: 10px;
-  transform: translateY(-68%);
-}
-
-.prevTrack img {
-  display: block;
-  width: 72px;
-  height: 96px;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.actions {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 18px;
-  color: #6a6a6a;
-}
-
-.thumbs {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-right: 4px;
-}
-
-.pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  height: 28px;
-  padding: 0 11px;
-  border: 1px solid #e6e6e6;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #3d3d3d;
-  font-size: 12.5px;
-  font-weight: 500;
-}
-
-.pillAi {
-  border-color: transparent;
-  background: #8b3dff;
-  color: #ffffff;
-}
-
-.canvaRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 10px 2px;
-  color: #8a8a8a;
-  font-size: 13px;
-  font-weight: 500;
-}
-
 /* --- Result card --- */
 
 .card {
   display: flex;
-  width: 680px;
-  max-width: 100%;
+  width: 100%;
+  height: 100%;
   min-height: 0;
   flex-direction: column;
   padding: 16px 16px 20px;
-  border: 1px solid #efefef;
-  border-radius: 18px;
   background: #ffffff;
-  box-shadow: 0 8px 28px rgba(20, 18, 16, 0.06);
 }
 
 .cardHead {
@@ -328,53 +165,6 @@
   color: #5a5a5a;
   box-shadow: 0 2px 8px rgba(20, 18, 16, 0.08);
   transform: translateY(-50%);
-}
-
-/* --- Composer --- */
-
-.dock {
-  display: flex;
-  grid-area: dock;
-  align-items: center;
-  padding: 0 36px 18px 28px;
-}
-
-.composer {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 48px;
-  padding: 0 8px 0 16px;
-  border: 1px solid #e8e8e8;
-  border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 1px 0 rgba(20, 18, 16, 0.03);
-}
-
-.composerIcon {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  color: #6a6a6a;
-}
-
-.ask {
-  flex: 1;
-  padding: 0 10px;
-  color: #9a9a9a;
-  font-size: 15px;
-  letter-spacing: -0.01em;
-}
-
-.send {
-  display: grid;
-  width: 32px;
-  height: 32px;
-  place-items: center;
-  border-radius: 999px;
-  background: #1a1a1a;
-  color: #ffffff;
 }
 
 @keyframes crr-sheen {
