@@ -4,6 +4,7 @@ import Script from "next/script";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PageFade } from "@/components/PageFade";
+import { email, instagram, linkedin } from "@/lib/content";
 import "./globals.css";
 
 const saans = localFont({
@@ -40,6 +41,30 @@ export const metadata: Metadata = {
   title: "Nupur Aggarwal — Product Designer",
   description:
     "I design how complex technical systems become usable products. AI-powered workflows and developer ecosystems at Canva, in collaboration with OpenAI and Anthropic.",
+  twitter: {
+    card: "summary_large_image",
+  },
+};
+
+/* Person markup so search engines connect the name to the site and the
+   profiles. Rendered as JSON-LD in the document body. */
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Nupur Aggarwal",
+  jobTitle: "Senior Product Designer",
+  url: "https://nupur.works",
+  email: `mailto:${email}`,
+  sameAs: [linkedin, instagram],
+  worksFor: {
+    "@type": "Organization",
+    name: "Canva",
+  },
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Sydney",
+    addressCountry: "AU",
+  },
 };
 
 export default function RootLayout({
@@ -54,6 +79,11 @@ export default function RootLayout({
       className={`${saans.variable} ${saansMono.variable}`}
     >
       <body>
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
         {/* Google tag (gtag.js) */}
         <Script
           async

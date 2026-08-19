@@ -5,6 +5,8 @@ import { email } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About — Nupur Aggarwal",
+  description:
+    "Product designer in Sydney with experience at Canva, Atlassian and Microsoft. I design how complex technical systems become usable products.",
 };
 
 type Row = {
