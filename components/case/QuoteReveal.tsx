@@ -7,6 +7,14 @@ import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
+/* Where the card rests while held: its top at 16% of the viewport. The
+   GSAP start below must express the same line ("top 16%"). */
+const STICK_TOP_VH = 16;
+/* How much scroll the hold lasts, in viewport heights. The spacer div and
+   the tween end must both use this so the fill completes exactly when the
+   card releases. */
+const RUNWAY_VH = 155;
+
 type QuoteRevealProps = {
   quote: string;
   attribution: string;
@@ -15,7 +23,11 @@ type QuoteRevealProps = {
 
 /**
  * Interfere-style social proof quote: ghost words fill to white as the
- * reader scrolls. The card pins. Reduced motion shows the full quote.
+ * reader scrolls. The card holds via position: sticky — the browser
+ * compositor keeps it locked to the scroll, unlike a GSAP transform pin,
+ * which re-positions on the main thread a frame behind native momentum
+ * scrolling and visibly jitters. GSAP only scrubs the word opacities.
+ * Reduced motion shows the full quote with no hold.
  */
 export function QuoteReveal({ quote, attribution, tone }: QuoteRevealProps) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -53,15 +65,9 @@ export function QuoteReveal({ quote, attribution, tone }: QuoteRevealProps) {
         stagger: { each: 0.22, from: "start" },
         scrollTrigger: {
           trigger: root,
-          start: "top 16%",
-          end: "+=155%",
-          // Transform pin stays in the content column. Fixed pin can
-          // resolve width against the viewport (100vw) and cover the TOC.
-          pin: true,
-          pinType: "transform",
-          pinSpacing: true,
+          start: `top ${STICK_TOP_VH}%`,
+          end: () => `+=${(RUNWAY_VH / 100) * window.innerHeight}`,
           scrub: 0.85,
-          anticipatePin: 1,
           invalidateOnRefresh: true,
           onLeave: () => {
             gsap.set(wordEls, { willChange: "auto" });
@@ -87,7 +93,10 @@ export function QuoteReveal({ quote, attribution, tone }: QuoteRevealProps) {
 
   return (
     <div ref={rootRef} className="w-full min-w-0 max-w-full">
-      <figure className="relative flex min-h-[52vh] w-full items-center justify-center overflow-hidden rounded-[32px] border border-white/10 px-8 py-16 md:min-h-[62vh] md:px-16 md:py-20">
+      <figure
+        className="sticky flex min-h-[52vh] w-full items-center justify-center overflow-hidden rounded-[32px] border border-white/10 px-8 py-16 motion-reduce:static md:min-h-[62vh] md:px-16 md:py-20"
+        style={{ top: `${STICK_TOP_VH}vh` }}
+      >
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -126,6 +135,14 @@ export function QuoteReveal({ quote, attribution, tone }: QuoteRevealProps) {
           <footer className="meta mt-10 text-faint">{attribution}</footer>
         </blockquote>
       </figure>
+      {/* Scroll runway that replaces the GSAP pin spacer: the sticky card
+          holds while this scrolls by. Hidden for reduced motion, where the
+          quote reads as a normal static block. */}
+      <div
+        aria-hidden
+        className="motion-reduce:hidden"
+        style={{ height: `${RUNWAY_VH}vh` }}
+      />
     </div>
   );
 }

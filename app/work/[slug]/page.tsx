@@ -31,7 +31,7 @@ export default async function CaseStudyPage({
 
   return (
     <>
-      <main className="relative z-10 mb-[560px] rounded-b-[48px] bg-night md:mb-[600px]">
+      <main className="relative z-10 mb-[560px] rounded-b-[48px] bg-night shadow-[0_24px_60px_rgba(0,0,0,0.6)] md:mb-[600px]">
         <section className="mx-auto flex min-h-[80svh] max-w-4xl flex-col justify-center px-6 py-40">
           <p className="meta flex items-center gap-2 text-faint">
             <span

@@ -44,8 +44,8 @@ export default function PlaygroundPage() {
               Scatter
             </h2>
             <p className="mt-3 max-w-2xl text-sm leading-relaxed text-night-ink/70 md:text-base">
-              A word set in particles. Move your cursor across the letters to
-              scatter them.
+              A word set in particles. Move your cursor fast across the
+              letters to throw them everywhere.
             </p>
 
             <div className="mt-8 rounded-2xl border border-white/10 bg-night/40">

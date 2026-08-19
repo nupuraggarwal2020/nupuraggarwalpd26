@@ -95,12 +95,17 @@ export function TypeParticles() {
           sampling: SAMPLING,
           character: "•",
           fontSize: DOT_FONT_SIZE,
-          /* Interaction numbers copied from the homepage hero particles. */
-          displaceStrength: 0.11,
-          displaceRadius: 0.22,
-          velocityInfluence: 0.11,
-          returnSpeed: 0.02,
-          tilt: false,
+          /* Unlike the calm homepage hero, this one is tuned to be wild:
+             near-max push, a wide blast radius, strong velocity fling so
+             fast swipes throw letters apart, and a lazy return so the
+             debris hangs in the air before drifting home. */
+          displaceStrength: 1.6,
+          displaceRadius: 0.38,
+          velocityInfluence: 1.3,
+          returnSpeed: 0.012,
+          tilt: true,
+          tiltFactor: 0.3,
+          tiltSpeed: 0.06,
         });
       } catch {
         /* No WebGL: the static gradient word stays visible. */

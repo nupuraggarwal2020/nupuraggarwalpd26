@@ -76,7 +76,7 @@ function RowGroup({ label, rows }: { label: string; rows: Row[] }) {
 
 export default function AboutPage() {
   return (
-    <main className="about-page relative z-10 mb-[560px] min-h-[calc(100svh+120px)] overflow-x-hidden rounded-b-[48px] bg-night md:mb-[600px]">
+    <main className="about-page relative z-10 mb-[560px] min-h-[calc(100svh+120px)] overflow-x-hidden rounded-b-[48px] bg-night shadow-[0_24px_60px_rgba(0,0,0,0.6)] md:mb-[600px]">
         <section className="mx-auto max-w-3xl px-6 pt-40 pb-20 md:pt-48">
           <p className="meta text-night-ink/45">About</p>
           <h1 className="display mt-4 font-bold text-4xl md:text-5xl">

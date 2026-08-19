@@ -235,6 +235,9 @@ export function CaseStack() {
       cards.forEach((card, i) => {
         // Pin each card at a slightly deeper offset; later cards slide over
         // earlier ones (pinSpacing off keeps the document flow compact).
+        // anticipatePin engages the pin slightly early based on scroll
+        // velocity: without it a fast scroll carries the card past its
+        // pin line for a frame and it visibly snaps back down.
         ScrollTrigger.create({
           trigger: card,
           start: () => `top ${PIN_TOP + i * STACK_GAP}px`,
@@ -242,6 +245,7 @@ export function CaseStack() {
           end: "bottom bottom",
           pin: true,
           pinSpacing: false,
+          anticipatePin: 1,
         });
       });
 
@@ -295,7 +299,10 @@ export function CaseStack() {
     <section
       ref={container}
       aria-label="Selected case studies"
-      className="relative px-4 pb-[14vh] md:px-8"
+      // Bottom padding sets how long the completed stack stays pinned
+      // before it releases: the last card only holds for ~(132px - 4vh)
+      // plus this extra, so 20vh gives it a readable rest.
+      className="relative px-4 pb-[20vh] md:px-8"
     >
       <div className="flex flex-col gap-[9vh]">
         {mainCases.map((cs, i) => (

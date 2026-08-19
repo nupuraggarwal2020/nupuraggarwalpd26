@@ -1,6 +1,5 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -30,10 +29,7 @@ function InstagramIcon() {
   );
 }
 
-export function Footer({ quiet }: { quiet?: boolean } = {}) {
-  const pathname = usePathname();
-  const isQuiet =
-    quiet ?? (pathname === "/about" || pathname === "/playground");
+export function Footer() {
   const footerRef = useRef<HTMLElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
   const [copied, setCopied] = useState(false);
@@ -53,8 +49,6 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
 
   useGSAP(
     () => {
-      if (isQuiet) return;
-
       if (pillRef.current) {
         moveTo.current = {
           x: gsap.quickTo(pillRef.current, "x", { duration: 0.3, ease: "power3.out" }),
@@ -83,11 +77,37 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
         };
       }
     },
-    { scope: footerRef, dependencies: [isQuiet] },
+    { scope: footerRef },
   );
 
-  function showPill() {
-    if (pillRef.current) pillRef.current.style.opacity = "1";
+  /* Matches the pill's translate of -130%: its top sits 1.3 heights above
+     the tracked point. */
+  const PILL_LIFT = 1.3;
+
+  /* The page sheet (the <main> above this fixed footer) and its drop
+     shadow paint over the footer's top edge. Clamp the pill's y so it
+     always stays fully below that edge instead of sliding under it. */
+  function pillPoint(e: React.MouseEvent) {
+    const rect = footerRef.current!.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    let y = e.clientY - rect.top;
+    const sheet = document.querySelector("main");
+    if (sheet) {
+      const covered = sheet.getBoundingClientRect().bottom - rect.top;
+      const pillHeight = pillRef.current?.offsetHeight ?? 36;
+      y = Math.max(y, covered + PILL_LIFT * pillHeight + 12);
+    }
+    return { x, y };
+  }
+
+  function showPill(e: React.MouseEvent) {
+    const pill = pillRef.current;
+    if (!pill) return;
+    /* Jump (not tween) to the cursor before fading in, so the pill never
+       appears at the footer's top-left corner or slides in from it. */
+    const { x, y } = pillPoint(e);
+    gsap.set(pill, { x, y });
+    pill.style.opacity = "1";
   }
 
   function hidePill() {
@@ -96,9 +116,9 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
   }
 
   function onMove(e: React.MouseEvent) {
-    const rect = footerRef.current!.getBoundingClientRect();
-    moveTo.current?.x(e.clientX - rect.left);
-    moveTo.current?.y(e.clientY - rect.top);
+    const point = pillPoint(e);
+    moveTo.current?.x(point.x);
+    moveTo.current?.y(point.y);
 
     const wrap = logoWrapRef.current;
     if (wrap && flowTo.current) {
@@ -142,9 +162,9 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
     <footer
       ref={footerRef}
       onClick={copyEmail}
-      onMouseMove={isQuiet ? undefined : onMove}
-      onMouseEnter={isQuiet ? undefined : showPill}
-      onMouseLeave={isQuiet ? undefined : hidePill}
+      onMouseMove={onMove}
+      onMouseEnter={showPill}
+      onMouseLeave={hidePill}
       className="fixed inset-x-0 bottom-0 z-0 flex h-[560px] cursor-pointer flex-col justify-between bg-night px-6 pt-20 pb-6 text-night-ink md:h-[600px] md:px-12"
     >
       <div className="flex items-start justify-between">
@@ -153,12 +173,10 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
               conic gradient (beam palette) flows through the logo's shape. */}
           <div ref={logoWrapRef} aria-hidden className="relative w-max">
             <Logo className="h-14 w-auto text-night-ink/40" />
-            {isQuiet ? null : (
-              <span
-                className="logo-flow"
-                style={{ WebkitMaskImage: LOGO_MASK, maskImage: LOGO_MASK }}
-              />
-            )}
+            <span
+              className="logo-flow"
+              style={{ WebkitMaskImage: LOGO_MASK, maskImage: LOGO_MASK }}
+            />
           </div>
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-night-ink/70">
             Design, to me, is making the complicated feel obvious.
@@ -206,18 +224,16 @@ export function Footer({ quiet }: { quiet?: boolean } = {}) {
         </div>
       </div>
 
-      {isQuiet ? null : (
-        <span
-          ref={pillRef}
-          className="pointer-events-none absolute top-0 left-0 z-10 rounded-full bg-night-ink px-4 py-2 text-sm font-semibold whitespace-nowrap text-night shadow-lg"
-          style={{
-            opacity: 0,
-            translate: "-50% -130%",
-          }}
-        >
-          {copied ? "Copied! ✓" : "Click to copy email"}
-        </span>
-      )}
+      <span
+        ref={pillRef}
+        className="pointer-events-none absolute top-0 left-0 z-10 rounded-full bg-night-ink px-4 py-2 text-sm font-semibold whitespace-nowrap text-night shadow-lg"
+        style={{
+          opacity: 0,
+          translate: "-50% -130%",
+        }}
+      >
+        {copied ? "Copied! ✓" : "Click to copy email"}
+      </span>
     </footer>
   );
 }

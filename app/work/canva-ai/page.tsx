@@ -6,6 +6,7 @@ import { Collapse } from "@/components/case/Collapse";
 import { CaseCarousel } from "@/components/case/CaseCarousel";
 import { Media } from "@/components/case/Media";
 import { CanvaChatHero } from "@/components/case/CanvaChatHero";
+import { CanvaResizeReplay } from "@/components/case/CanvaResizeReplay";
 import { ProofPills } from "@/components/case/ProofPills";
 import { QuoteReveal } from "@/components/case/QuoteReveal";
 import { mainCases } from "@/lib/content";
@@ -115,6 +116,7 @@ function Decision({
   figCaption,
   src,
   alt,
+  figure,
   children,
 }: {
   index: string;
@@ -123,6 +125,7 @@ function Decision({
   figCaption?: string;
   src?: string;
   alt?: string;
+  figure?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -136,16 +139,18 @@ function Decision({
         </h3>
       </div>
       <Prose>{children}</Prose>
-      {src ? (
-        <Media
-          fig={fig}
-          caption={figCaption}
-          src={src}
-          alt={alt}
-          tint={cs.tint}
-          tone={cs.tone}
-        />
-      ) : null}
+      {figure
+        ? figure
+        : src ? (
+            <Media
+              fig={fig}
+              caption={figCaption}
+              src={src}
+              alt={alt}
+              tint={cs.tint}
+              tone={cs.tone}
+            />
+          ) : null}
     </article>
   );
 }
@@ -421,10 +426,12 @@ export default function CanvaAiCaseStudy() {
                 <Decision
                   index="01"
                   title="Auto-resize social posts"
-                  fig={1}
-                  figCaption="Multi-platform resize from one conversation."
-                  src="/work/canva-ai/resize.png"
-                  alt="Auto-resize social posts"
+                  figure={
+                    <CanvaResizeReplay
+                      fig={1}
+                      caption="Multi-platform resize from one conversation."
+                    />
+                  }
                 >
                   <p>
                     Research showed social media managers maintain 5-7
